@@ -1,2 +1,2 @@
-import pkg-skelton from './datetime';
-export default pkg-skelton;
+const pkg_skelton from './datetime';
+exports.default = pkg_skelton;

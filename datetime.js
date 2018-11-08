@@ -2,6 +2,8 @@ var dateTime = function() {
     this.datetime_pattern = /(\d{4})[-\/](\d\d)[-\/](\d\d) (\d\d):(\d\d):([\d\.]+)/;
 };
 
+exports.default = dateTime;
+
 dateTime.prototype.__formatNumber = function(num, zeros) {
     var ret = "";
 
