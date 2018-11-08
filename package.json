@@ -1,0 +1,10 @@
+{
+    "name": "pkg-skelton",
+    "version": "0.0.1",
+    "description": "JavaScript library for npm package",
+    "main": "index.js",
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:suzutsuki0220/pkg-skelton.git"
+    }
+}
