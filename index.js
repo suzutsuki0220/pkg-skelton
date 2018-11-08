@@ -1,2 +1,4 @@
-const pkg_skelton from './datetime';
-exports.default = pkg_skelton;
+var c = new Object();
+c.datetime = require('./datetime');
+c.ajax     = require('./ajax');
+module.exports = c;

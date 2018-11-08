@@ -1,10 +1,6 @@
-var dateTime = function() {
-    this.datetime_pattern = /(\d{4})[-\/](\d\d)[-\/](\d\d) (\d\d):(\d\d):([\d\.]+)/;
-};
+const datetime_pattern = /(\d{4})[-\/](\d\d)[-\/](\d\d) (\d\d):(\d\d):([\d\.]+)/;
 
-exports.default = dateTime;
-
-dateTime.prototype.__formatNumber = function(num, zeros) {
+function formatNumber(num, zeros) {
     var ret = "";
 
     for (var i=0; i<zeros; i++) {
@@ -15,59 +11,59 @@ dateTime.prototype.__formatNumber = function(num, zeros) {
     return ret.substr(zeros * -1);
 };
 
-dateTime.prototype.isValidString = function(datetime_str) {
-    return this.datetime_pattern.test(datetime_str);
+exports.isValidString = function(datetime_str) {
+    return datetime_pattern.test(datetime_str);
 };
 
-dateTime.prototype.toUTCString = function(epoc) {
+exports.toUTCString = function(epoc) {
     var d = new Date(epoc);
 
-    const year  = this.__formatNumber(d.getUTCFullYear(), 4);
-    const month = this.__formatNumber(d.getUTCMonth() + 1, 2);
-    const date  = this.__formatNumber(d.getUTCDate(), 2);
-    const hour  = this.__formatNumber(d.getUTCHours(), 2);
-    const min   = this.__formatNumber(d.getUTCMinutes(), 2);
-    const sec   = this.__formatNumber(d.getUTCSeconds(), 2);
-    const msec  = this.__formatNumber(d.getUTCMilliseconds(), 3);
+    const year  = formatNumber(d.getUTCFullYear(), 4);
+    const month = formatNumber(d.getUTCMonth() + 1, 2);
+    const date  = formatNumber(d.getUTCDate(), 2);
+    const hour  = formatNumber(d.getUTCHours(), 2);
+    const min   = formatNumber(d.getUTCMinutes(), 2);
+    const sec   = formatNumber(d.getUTCSeconds(), 2);
+    const msec  = formatNumber(d.getUTCMilliseconds(), 3);
 
     return year + "/" + month + "/" + date + " " + hour + ":" + min + ":" + sec + "." + msec;
 };
 
-dateTime.prototype.toString = function(epoc) {
+exports.toString = function(epoc) {
     var d = new Date(epoc);
 
-    const year  = this.__formatNumber(d.getFullYear(), 4);
-    const month = this.__formatNumber(d.getMonth() + 1, 2);
-    const date  = this.__formatNumber(d.getDate(), 2);
-    const hour  = this.__formatNumber(d.getHours(), 2);
-    const min   = this.__formatNumber(d.getMinutes(), 2);
-    const sec   = this.__formatNumber(d.getSeconds(), 2);
-    const msec  = this.__formatNumber(d.getMilliseconds(), 3);
+    const year  = formatNumber(d.getFullYear(), 4);
+    const month = formatNumber(d.getMonth() + 1, 2);
+    const date  = formatNumber(d.getDate(), 2);
+    const hour  = formatNumber(d.getHours(), 2);
+    const min   = formatNumber(d.getMinutes(), 2);
+    const sec   = formatNumber(d.getSeconds(), 2);
+    const msec  = formatNumber(d.getMilliseconds(), 3);
 
     return year + "/" + month + "/" + date + " " + hour + ":" + min + ":" + sec + "." + msec;
 };
 
-dateTime.prototype.toRFC3339UTC = function(epoc) {
+exports.toRFC3339UTC = function(epoc) {
     var d = new Date(epoc);
 
-    const year  = this.__formatNumber(d.getUTCFullYear(), 4);
-    const month = this.__formatNumber(d.getUTCMonth() + 1, 2);
-    const date  = this.__formatNumber(d.getUTCDate(), 2);
-    const hour  = this.__formatNumber(d.getUTCHours(), 2);
-    const min   = this.__formatNumber(d.getUTCMinutes(), 2);
-    const sec   = this.__formatNumber(d.getUTCSeconds(), 2);
+    const year  = formatNumber(d.getUTCFullYear(), 4);
+    const month = formatNumber(d.getUTCMonth() + 1, 2);
+    const date  = formatNumber(d.getUTCDate(), 2);
+    const hour  = formatNumber(d.getUTCHours(), 2);
+    const min   = formatNumber(d.getUTCMinutes(), 2);
+    const sec   = formatNumber(d.getUTCSeconds(), 2);
 
     return year + "-" + month + "-" + date + "T" + hour + ":" + min + ":" + sec + "Z";
 };
 
-dateTime.prototype.getDateFromDatetimeString = function(datetime) {
+exports.getDateFromDatetimeString = function(datetime) {
     var d;
 
     if (!datetime) {
         return NaN;
     }
 
-    var dt_match = datetime.match(this.datetime_pattern);
+    var dt_match = datetime.match(datetime_pattern);
     if (dt_match === null) {
         return NaN;
     }

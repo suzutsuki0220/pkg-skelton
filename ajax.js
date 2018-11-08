@@ -1,5 +1,4 @@
-function ajax_init() 
-{
+exports.init = function() {
     var httpRequest;
 
     if (window.XMLHttpRequest) { // Mozilla, Safari, ...
@@ -22,19 +21,16 @@ function ajax_init()
     return httpRequest;
 }
 
-function ajax_set_instance(httpRequest, func)
-{
+exports.setInstance = function(httpRequest, func) {
     httpRequest.onreadystatechange = func;
 }
 
-function ajax_get(httpRequest, url)
-{
+exports.get = function(httpRequest, url) {
     httpRequest.open('GET', url, true);
     httpRequest.send(null);
 }
 
-function ajax_post(httpRequest, url, query)
-{
+exports.post = function(httpRequest, url, query) {
     httpRequest.open('POST', url, true);
     httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     httpRequest.send(query);

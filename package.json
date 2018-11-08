@@ -1,6 +1,6 @@
 {
     "name": "pkg-skelton",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "JavaScript library for npm package",
     "main": "index.js",
     "repository": {
