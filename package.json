@@ -2,6 +2,7 @@
     "name": "pkg-skelton",
     "version": "0.0.4",
     "description": "JavaScript library for npm package",
+    "license": "MIT"
     "main": "index.js",
     "repository": {
         "type": "git",
