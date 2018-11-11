@@ -1,11 +1,17 @@
 {
-    "name": "jsUtils",
-    "version": "0.0.4",
-    "description": "JavaScript library for npm package",
-    "license": "MIT",
-    "main": "index.js",
-    "repository": {
-        "type": "git",
-        "url": "git@github.com:suzutsuki0220/jsUtils.git"
-    }
+  "name": "jsUtils",
+  "version": "0.0.4",
+  "description": "JavaScript library for npm package",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:suzutsuki0220/jsUtils.git"
+  },
+  "devDependencies": {
+    "jest": "^23.6.0"
+  }
 }
