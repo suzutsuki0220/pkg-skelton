@@ -1,7 +1,7 @@
 describe('datetime', () => {
   let datetime
   beforeEach(() => {
-    datetime = require('../datetime');
+    datetime = require('../src/datetime');
   })
 
   describe('isValidString()', () => {
