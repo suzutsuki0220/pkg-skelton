@@ -1,11 +1,11 @@
 {
-    "name": "pkg-skelton",
+    "name": "jsUtils",
     "version": "0.0.4",
     "description": "JavaScript library for npm package",
-    "license": "MIT"
+    "license": "MIT",
     "main": "index.js",
     "repository": {
         "type": "git",
-        "url": "git@github.com:suzutsuki0220/pkg-skelton.git"
+        "url": "git@github.com:suzutsuki0220/jsUtils.git"
     }
 }
