@@ -9,61 +9,53 @@ function formatNumber(num, zeros) {
     ret += String(num);
 
     return ret.substr(zeros * -1);
-};
+}
+
+function getDatetimeFromEpoc(epoc) {
+    var ret = new Object();
+    const d = new Date(epoc);
+
+    ret.year  = formatNumber(d.getUTCFullYear(), 4);
+    ret.month = formatNumber(d.getUTCMonth() + 1, 2);
+    ret.date  = formatNumber(d.getUTCDate(), 2);
+    ret.hour  = formatNumber(d.getUTCHours(), 2);
+    ret.min   = formatNumber(d.getUTCMinutes(), 2);
+    ret.sec   = formatNumber(d.getUTCSeconds(), 2);
+    ret.msec  = formatNumber(d.getUTCMilliseconds(), 3);
+
+    return ret;
+}
 
 exports.isValidString = function(datetime_str) {
     return datetime_pattern.test(datetime_str);
 };
 
 exports.toUTCString = function(epoc) {
-    var d = new Date(epoc);
+    const d = getDatetimeFromEpoc(epoc);
 
-    const year  = formatNumber(d.getUTCFullYear(), 4);
-    const month = formatNumber(d.getUTCMonth() + 1, 2);
-    const date  = formatNumber(d.getUTCDate(), 2);
-    const hour  = formatNumber(d.getUTCHours(), 2);
-    const min   = formatNumber(d.getUTCMinutes(), 2);
-    const sec   = formatNumber(d.getUTCSeconds(), 2);
-    const msec  = formatNumber(d.getUTCMilliseconds(), 3);
-
-    return year + "/" + month + "/" + date + " " + hour + ":" + min + ":" + sec + "." + msec;
+    return d.year + "/" + d.month + "/" + d.date + " " + d.hour + ":" + d.min + ":" + d.sec + "." + d.msec;
 };
 
 exports.toString = function(epoc) {
-    var d = new Date(epoc);
+    const tz_offset_msec = (new Date()).getTimezoneOffset() * 60 * 1000;
 
-    const year  = formatNumber(d.getFullYear(), 4);
-    const month = formatNumber(d.getMonth() + 1, 2);
-    const date  = formatNumber(d.getDate(), 2);
-    const hour  = formatNumber(d.getHours(), 2);
-    const min   = formatNumber(d.getMinutes(), 2);
-    const sec   = formatNumber(d.getSeconds(), 2);
-    const msec  = formatNumber(d.getMilliseconds(), 3);
-
-    return year + "/" + month + "/" + date + " " + hour + ":" + min + ":" + sec + "." + msec;
+    return this.toUTCString(epoc - tz_offset_msec);
 };
 
 exports.toRFC3339UTC = function(epoc) {
-    var d = new Date(epoc);
+    const d = getDatetimeFromEpoc(epoc);
 
-    const year  = formatNumber(d.getUTCFullYear(), 4);
-    const month = formatNumber(d.getUTCMonth() + 1, 2);
-    const date  = formatNumber(d.getUTCDate(), 2);
-    const hour  = formatNumber(d.getUTCHours(), 2);
-    const min   = formatNumber(d.getUTCMinutes(), 2);
-    const sec   = formatNumber(d.getUTCSeconds(), 2);
-
-    return year + "-" + month + "-" + date + "T" + hour + ":" + min + ":" + sec + "Z";
+    return d.year + "-" + d.month + "-" + d.date + "T" + d.hour + ":" + d.min + ":" + d.sec + "Z";
 };
 
-exports.getDateFromDatetimeString = function(datetime) {
+exports.getDateFromDatetimeString = function(datetime_str) {
     var d;
 
-    if (!datetime) {
+    if (!datetime_str) {
         return NaN;
     }
 
-    var dt_match = datetime.match(datetime_pattern);
+    var dt_match = datetime_str.match(datetime_pattern);
     if (dt_match === null) {
         return NaN;
     }
