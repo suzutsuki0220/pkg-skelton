@@ -11,19 +11,21 @@ function formatNumber(num, zeros) {
     return ret.substr(zeros * -1);
 }
 
-function getDatetimeFromEpoc(epoc) {
-    var ret = new Object();
-    const d = new Date(epoc);
+function getDateStr(d, delim) {
+    const year  = formatNumber(d.getUTCFullYear(), 4);
+    const month = formatNumber(d.getUTCMonth() + 1, 2);
+    const date  = formatNumber(d.getUTCDate(), 2);
 
-    ret.year  = formatNumber(d.getUTCFullYear(), 4);
-    ret.month = formatNumber(d.getUTCMonth() + 1, 2);
-    ret.date  = formatNumber(d.getUTCDate(), 2);
-    ret.hour  = formatNumber(d.getUTCHours(), 2);
-    ret.min   = formatNumber(d.getUTCMinutes(), 2);
-    ret.sec   = formatNumber(d.getUTCSeconds(), 2);
-    ret.msec  = formatNumber(d.getUTCMilliseconds(), 3);
+    return year + delim + month + delim + date;
+}
 
-    return ret;
+function getTimeStr(d, add_msec) {
+    const hour  = formatNumber(d.getUTCHours(), 2);
+    const min   = formatNumber(d.getUTCMinutes(), 2);
+    const sec   = formatNumber(d.getUTCSeconds(), 2);
+    const msec  = add_msec ? "." + formatNumber(d.getUTCMilliseconds(), 3) : "";
+
+    return hour + ":" + min + ":" + sec + msec;
 }
 
 exports.isValidString = function(datetime_str) {
@@ -31,9 +33,9 @@ exports.isValidString = function(datetime_str) {
 };
 
 exports.toUTCString = function(epoc) {
-    const d = getDatetimeFromEpoc(epoc);
+    const d = new Date(epoc);
 
-    return d.year + "/" + d.month + "/" + d.date + " " + d.hour + ":" + d.min + ":" + d.sec + "." + d.msec;
+    return getDateStr(d, "/") + " " + getTimeStr(d, true);
 };
 
 exports.toString = function(epoc) {
@@ -43,9 +45,9 @@ exports.toString = function(epoc) {
 };
 
 exports.toRFC3339UTC = function(epoc) {
-    const d = getDatetimeFromEpoc(epoc);
+    const d = new Date(epoc);
 
-    return d.year + "-" + d.month + "-" + d.date + "T" + d.hour + ":" + d.min + ":" + d.sec + "Z";
+    return getDateStr(d, "-") + "T" + getTimeStr(d, false) + "Z";
 };
 
 exports.getDateFromDatetimeString = function(datetime_str) {
