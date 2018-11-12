@@ -4,5 +4,3 @@ plugins:
     enabled: true
   eslint:
     enabled: true
-exclude_patterns:
-  - "node_modules"
