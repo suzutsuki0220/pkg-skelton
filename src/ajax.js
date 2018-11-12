@@ -8,9 +8,7 @@ var onError_func = noWork;
 var success_func = noWork;
 
 exports.init = function() {
-    if (httpRequest) {
-        return;
-    }
+    this.close();
 
     const w = (typeof window === 'undefined') ? require('xmlhttprequest') : window;
     httpRequest = new w.XMLHttpRequest();
@@ -33,7 +31,9 @@ exports.init = function() {
 };
 
 exports.close = function() {
-    httpRequest = null;
+    if (httpRequest) {
+        httpRequest = null;
+    }
 };
 
 exports.setOnLoading = function(func) {
