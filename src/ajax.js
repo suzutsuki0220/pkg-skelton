@@ -2,13 +2,18 @@ function noWork() {
     return;
 }
 
+var httpRequest = null;
 var loading_func = noWork;
 var onError_func = noWork;
 var success_func = noWork;
 
 exports.init = function() {
+    if (httpRequest) {
+        return;
+    }
+
     const w = (typeof window === 'undefined') ? require('xmlhttprequest') : window;
-    var httpRequest = new w.XMLHttpRequest();
+    httpRequest = new w.XMLHttpRequest();
 
     httpRequest.onreadystatechange = function() {
         if (httpRequest.readyState === httpRequest.DONE) {
@@ -25,8 +30,10 @@ exports.init = function() {
     if (httpRequest.overrideMimeType) {
         httpRequest.overrideMimeType('text/xml');
     }
+};
 
-    return httpRequest;
+exports.close = function() {
+    httpRequest = null;
 };
 
 exports.setOnLoading = function(func) {
@@ -41,12 +48,12 @@ exports.setOnError = function(func) {
     onError_func = func;
 };
 
-exports.get = function(httpRequest, url) {
+exports.get = function(url) {
     httpRequest.open('GET', url, true);
     httpRequest.send(null);
 };
 
-exports.post = function(httpRequest, url, query) {
+exports.post = function(url, query) {
     httpRequest.open('POST', url, true);
     httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     httpRequest.send(query);

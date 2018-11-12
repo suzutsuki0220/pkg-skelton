@@ -1,5 +1,5 @@
 describe('ajax', () => {
-  let ajax, httpRequest;
+  let ajax;
   let server = null;
   let timeout_id = NaN;
   const access_test_url = "http://127.0.0.1:13370/";
@@ -25,7 +25,7 @@ describe('ajax', () => {
 
   beforeEach(() => {
     ajax = require('../src/ajax');
-    httpRequest = ajax.init();
+    ajax.init();
     startHttpServer();
   })
 
@@ -40,7 +40,7 @@ describe('ajax', () => {
 
       ajax.setOnSuccess(fetchData);
       ajax.setOnError(fetchData);
-      ajax.get(httpRequest, access_test_url);
+      ajax.get(access_test_url);
     })
   })
 })
