@@ -1,38 +1,60 @@
+function noWork() {
+    return;
+}
+
+var httpRequest = null;
+var loading_func = noWork;
+var onError_func = noWork;
+var success_func = noWork;
+
 exports.init = function() {
-    var httpRequest;
-    var w = (typeof window === 'undefined') ? require('xmlhttprequest') : window;
+    this.close();
 
-    if (w.XMLHttpRequest) { // Mozilla, Safari, ...
-        httpRequest = new w.XMLHttpRequest();
+    const w = (typeof window === 'undefined') ? require('xmlhttprequest') : window;
+    httpRequest = new w.XMLHttpRequest();
 
-        if (httpRequest.overrideMimeType) {
-            httpRequest.overrideMimeType('text/xml');
-        }
-    } else if (window.ActiveXObject) { // IE
-        try {
-            httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
-        } catch(e) {
-            try {
-                httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
-            } catch(e) {
-                alert('ERROR: ' + e.description);
+    httpRequest.onreadystatechange = function() {
+        if (httpRequest.readyState === httpRequest.DONE) {
+            if (httpRequest.status === 200) {
+                success_func(httpRequest);
+            } else {
+                onError_func(httpRequest);
             }
+        } else {
+            loading_func();
         }
+    };
+
+    if (httpRequest.overrideMimeType) {
+        httpRequest.overrideMimeType('text/xml');
     }
-    return httpRequest;
-}
+};
 
-exports.setInstance = function(httpRequest, func) {
-    httpRequest.onreadystatechange = func;
-}
+exports.close = function() {
+    if (httpRequest) {
+        httpRequest = null;
+    }
+};
 
-exports.get = function(httpRequest, url) {
+exports.setOnLoading = function(func) {
+    loading_func = func;
+};
+
+exports.setOnSuccess = function(func) {
+    success_func = func;
+};
+
+exports.setOnError = function(func) {
+    onError_func = func;
+};
+
+exports.get = function(url) {
     httpRequest.open('GET', url, true);
     httpRequest.send(null);
-}
+};
 
-exports.post = function(httpRequest, url, query) {
+exports.post = function(url, query) {
     httpRequest.open('POST', url, true);
     httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     httpRequest.send(query);
-}
+};
