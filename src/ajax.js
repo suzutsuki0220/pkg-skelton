@@ -1,8 +1,9 @@
 exports.init = function() {
     var httpRequest;
+    var w = (typeof window === 'undefined') ? require('xmlhttprequest') : window;
 
-    if (window.XMLHttpRequest) { // Mozilla, Safari, ...
-        httpRequest = new XMLHttpRequest();
+    if (w.XMLHttpRequest) { // Mozilla, Safari, ...
+        httpRequest = new w.XMLHttpRequest();
 
         if (httpRequest.overrideMimeType) {
             httpRequest.overrideMimeType('text/xml');
