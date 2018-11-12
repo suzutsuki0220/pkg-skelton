@@ -7,23 +7,28 @@ var loading_func = noWork;
 var onError_func = noWork;
 var success_func = noWork;
 
+function createXhr() {
+    const w = (typeof window === 'undefined') ? require('xmlhttprequest') : window;  // nodejs or browser
+    return httpRequest = new w.XMLHttpRequest();
+}
+
+function stateChangedWork() {
+    if (httpRequest.readyState === httpRequest.DONE) {
+        if (httpRequest.status === 200) {
+            success_func(httpRequest);
+        } else {
+            onError_func(httpRequest);
+        }
+    } else {
+        loading_func();
+    }
+}
+
 exports.init = function() {
     this.close();
 
-    const w = (typeof window === 'undefined') ? require('xmlhttprequest') : window;
-    httpRequest = new w.XMLHttpRequest();
-
-    httpRequest.onreadystatechange = function() {
-        if (httpRequest.readyState === httpRequest.DONE) {
-            if (httpRequest.status === 200) {
-                success_func(httpRequest);
-            } else {
-                onError_func(httpRequest);
-            }
-        } else {
-            loading_func();
-        }
-    };
+    httpRequest = createXhr();
+    httpRequest.onreadystatechange = stateChangedWork;
 
     if (httpRequest.overrideMimeType) {
         httpRequest.overrideMimeType('text/xml');
