@@ -53,6 +53,10 @@ exports.setOnError = function(func) {
     onError_func = func;
 };
 
+exports.setRequestHeader = function(header, value) {
+    httpRequest.setRequestHeader(header, value);
+};
+
 exports.get = function(url) {
     httpRequest.open('GET', url, true);
     httpRequest.send(null);
