@@ -3,6 +3,7 @@ function noWork() {
 }
 
 var httpRequest = null;
+var request_headers = new Object();
 var loading_func = noWork;
 var onError_func = noWork;
 var success_func = noWork;
@@ -23,6 +24,15 @@ function stateChangedWork() {
         loading_func();
     }
 }
+
+function setHeaders() {
+request_headers
+    for (var i in request_headers) {
+        if (request_headers.hasOwnProperty(i)) {
+            httpRequest.setRequestHeader(i, request_headers[i]);
+        }
+    }
+};
 
 exports.init = function() {
     this.close();
@@ -53,17 +63,19 @@ exports.setOnError = function(func) {
     onError_func = func;
 };
 
-exports.setRequestHeader = function(header, value) {
-    httpRequest.setRequestHeader(header, value);
+exports.setRequestHeader = function(headers) {
+    request_headers = headers;
 };
 
 exports.get = function(url) {
     httpRequest.open('GET', url, true);
+    setHeaders();
     httpRequest.send(null);
 };
 
 exports.post = function(url, query) {
     httpRequest.open('POST', url, true);
+    setHeaders();
     httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     httpRequest.send(query);
 };
