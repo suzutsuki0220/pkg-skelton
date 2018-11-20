@@ -13,9 +13,16 @@ function createXhr() {
     return httpRequest = new w.XMLHttpRequest();
 }
 
+function isSuccessStatus(status) {
+    if (200 <= status && status < 300) {
+        return true;
+    }
+    return false;
+}
+
 function stateChangedWork() {
     if (httpRequest.readyState === httpRequest.DONE) {
-        if (200 <= httpRequest.status && httpRequest.status < 300) {
+        if (isSuccessStatus(httpRequest.status)) {
             success_func(httpRequest);
         } else {
             onError_func(httpRequest);

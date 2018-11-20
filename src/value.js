@@ -13,20 +13,22 @@ exports.replaceNanToZero = function(value) {
 exports.normalize = function(input, min, max) {
     if (isNaN(input) === true) {
         return 0;
-    } else {
-        if (input > max) {
-            return max;
-        }
-        if (input < min) {
-            return min;
-        }
-        return input;
     }
+
+    return input > max ? max : (input < min ? min : input);
 };
 
 exports.setMinMax = function(value, obj) {
-    obj.min = isNaN(obj.min) ? value : (obj.min > value ? value : obj.min);
-    obj.max = isNaN(obj.max) ? value : (obj.max < value ? value : obj.max);
+    obj.min = this.getMin(value, obj.min);
+    obj.max = this.getMax(value, obj.max);
+};
+
+exports.getMin = function(value, min) {
+    return isNaN(min) ? value : (min > value ? value : min);
+};
+
+exports.getMax = function(value, max) {
+    return isNaN(max) ? value : (max < value ? value : max);
 };
 
 exports.uuid = function() {
