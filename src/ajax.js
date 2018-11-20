@@ -26,7 +26,6 @@ function stateChangedWork() {
 }
 
 function setHeaders() {
-request_headers
     for (var i in request_headers) {
         if (request_headers.hasOwnProperty(i)) {
             httpRequest.setRequestHeader(i, request_headers[i]);
