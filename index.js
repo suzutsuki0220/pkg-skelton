@@ -1,5 +1,3 @@
-var c = new Object();
-c.datetime = require('./src/datetime');
-c.ajax     = require('./src/ajax');
-c.value    = require('./src/value');
-module.exports = c;
+module.exports.datetime = require('./src/datetime');
+module.exports.ajax     = require('./src/ajax');
+module.exports.value    = require('./src/value');

@@ -1,11 +1,12 @@
 {
   "name": "js-utils",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "JavaScript library for npm package",
   "license": "MIT",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test:coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",
