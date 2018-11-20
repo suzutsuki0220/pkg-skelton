@@ -15,7 +15,7 @@ function createXhr() {
 
 function stateChangedWork() {
     if (httpRequest.readyState === httpRequest.DONE) {
-        if (httpRequest.status === 200) {
+        if (200 <= httpRequest.status && httpRequest.status < 300) {
             success_func(httpRequest);
         } else {
             onError_func(httpRequest);
