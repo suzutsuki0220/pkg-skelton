@@ -76,6 +76,8 @@ exports.get = function(url) {
 exports.post = function(url, query) {
     httpRequest.open('POST', url, true);
     setHeaders();
-    httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    if (!request_headers['Content-Type']) {
+        httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    }
     httpRequest.send(query);
 };
