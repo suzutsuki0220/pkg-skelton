@@ -51,15 +51,15 @@ exports.close = function() {
 };
 
 exports.setOnLoading = function(func) {
-    loading_func = func;
+    loading_func = func || noWork;
 };
 
 exports.setOnSuccess = function(func) {
-    success_func = func;
+    success_func = func || noWork;
 };
 
 exports.setOnError = function(func) {
-    onError_func = func;
+    onError_func = func || noWork;
 };
 
 exports.setRequestHeader = function(headers) {
