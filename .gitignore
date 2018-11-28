@@ -63,3 +63,5 @@ typings/
 # editor temporary file
 *.swp
 *~
+
+cc-test-reporter
