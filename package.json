@@ -7,7 +7,7 @@
   "scripts": {
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "test:cc-report": "CC_TEST_REPORTER_ID=77c63b9255e266fffca0db0ebeb9d71ba089d0f9c28db73e8e3071ec3f8e8574 GIT_COMMIT=$(git log | grep -m1 -oE '[^ ]+$') jest --coverage && ./test-reporter-latest-linux-amd64 after-build -t lcov --exit-code $?"
+    "test:cc-report": "jest --coverage && CC_TEST_REPORTER_ID=77c63b9255e266fffca0db0ebeb9d71ba089d0f9c28db73e8e3071ec3f8e8574 GIT_COMMIT=$(git log | grep -m1 -oE '[^ ]+$') ./test-reporter-latest-linux-amd64 after-build -t lcov --exit-code $?"
   },
   "repository": {
     "type": "git",
