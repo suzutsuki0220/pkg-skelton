@@ -2,7 +2,7 @@ describe('value', () => {
   let value;
 
   beforeEach(() => {
-    value = require('../src/value');
+    value = require('../config').require.jsUtils.value;
   });
 
   describe('replaceNanToZero()', () => {

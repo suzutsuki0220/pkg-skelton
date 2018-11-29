@@ -29,7 +29,7 @@ describe('ajax', () => {
 
   beforeEach(() => {
     received_request = new Object();
-    ajax = require('../src/ajax');
+    ajax = require('../config').require.jsUtils.ajax;
     ajax.init();
     startHttpServer();
   });
