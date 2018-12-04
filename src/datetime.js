@@ -28,29 +28,29 @@ function getTimeStr(d, add_msec) {
     return hour + ":" + min + ":" + sec + msec;
 }
 
-exports.isValidString = function(datetime_str) {
+module.exports.isValidString = function(datetime_str) {
     return datetime_pattern.test(datetime_str);
 };
 
-exports.toUTCString = function(epoc) {
+module.exports.toUTCString = function(epoc) {
     const d = new Date(epoc);
 
     return getDateStr(d, "/") + " " + getTimeStr(d, true);
 };
 
-exports.toString = function(epoc) {
+module.exports.toString = function(epoc) {
     const tz_offset_msec = (new Date()).getTimezoneOffset() * 60 * 1000;
 
     return this.toUTCString(epoc - tz_offset_msec);
 };
 
-exports.toRFC3339UTC = function(epoc) {
+module.exports.toRFC3339UTC = function(epoc) {
     const d = new Date(epoc);
 
     return getDateStr(d, "-") + "T" + getTimeStr(d, false) + "Z";
 };
 
-exports.getDateFromDatetimeString = function(datetime_str) {
+module.exports.getDateFromDatetimeString = function(datetime_str) {
     var d;
 
     if (!datetime_str) {
@@ -68,4 +68,15 @@ exports.getDateFromDatetimeString = function(datetime_str) {
     d = new Date(Date.UTC(dt_match[1], dt_match[2] - 1, dt_match[3], dt_match[4], dt_match[5], sec, milisec));
 
     return d.getTime();  // ミリ秒
+};
+
+module.exports.roundMilliEpoc = function(milli_epoc) {
+    return Math.floor(milli_epoc / 1000) * 1000;
+};
+
+module.exports.isMatchInSeconds = function(epoc1, epoc2) {
+    var dt1 = Math.floor(epoc1 / 1000) * 1000;
+    var dt2 = Math.floor(epoc2 / 1000) * 1000;
+
+    return dt1 === dt2 ? true : false;
 };
