@@ -1,4 +1,4 @@
-exports.replaceNanToZero = function(value) {
+module.exports.replaceNanToZero = function(value) {
     var ret = 0;
     if (value) {
         ret = parseFloat(value.trim ? value.trim() : value);
@@ -10,7 +10,7 @@ exports.replaceNanToZero = function(value) {
 };
 
 // value を最小値から最大値の間に収めるように返す
-exports.normalize = function(input, min, max) {
+module.exports.normalize = function(input, min, max) {
     if (isNaN(input) === true) {
         return 0;
     }
@@ -18,20 +18,30 @@ exports.normalize = function(input, min, max) {
     return input > max ? max : (input < min ? min : input);
 };
 
-exports.setMinMax = function(value, obj) {
+module.exports.setMinMax = function(value, obj) {
     obj.min = this.getMin(value, obj.min);
     obj.max = this.getMax(value, obj.max);
 };
 
-exports.getMin = function(value, min) {
+module.exports.getMin = function(value, min) {
     return isNaN(min) ? value : (min > value ? value : min);
 };
 
-exports.getMax = function(value, max) {
+module.exports.getMax = function(value, max) {
     return isNaN(max) ? value : (max < value ? value : max);
 };
 
-exports.uuid = function() {
+// CSV等の区切り文字を ',' に統一する
+module.exports.replaceSeparator = function(string) {
+    return string ? string.replace(/[\t ]/g, ',') : "";
+};
+
+// 改行コードを `\n` に統一する
+module.exports.fixNewLine = function(string) {
+    return string ? string.replace(/(\r\n|\r|\n)/g, '\n') : "";
+};
+
+module.exports.uuid = function() {
     var uuid = "";
     for (var i=0; i<32; i++) {
         const random = Math.random() * 16 | 0;

@@ -2,7 +2,7 @@ describe('value', () => {
   let value;
 
   beforeEach(() => {
-    value = require('../src/value');
+    value = require('../config').require.jsUtils.value;
   });
 
   describe('replaceNanToZero()', () => {
@@ -32,6 +32,33 @@ describe('value', () => {
 
       expect(minmax.min).toBe(0);
       expect(minmax.max).toBe(3);
+    });
+  });
+  describe('replaceSeparator()', () => {
+    test('replaceSeparator', () => {
+      expect(value.replaceSeparator()).toBe('');
+      expect(value.replaceSeparator('1')).toBe('1');
+      expect(value.replaceSeparator('1,2')).toBe('1,2');
+      expect(value.replaceSeparator('1 2')).toBe('1,2');
+      expect(value.replaceSeparator('1\t2')).toBe('1,2');
+      expect(value.replaceSeparator('1,2,3')).toBe('1,2,3');
+      expect(value.replaceSeparator('1 2 3')).toBe('1,2,3');
+      expect(value.replaceSeparator('1\t2\t3')).toBe('1,2,3');
+      expect(value.replaceSeparator('1\t2\t3  ')).toBe('1,2,3,,');
+      expect(value.replaceSeparator('1  2   3  ')).toBe('1,,2,,,3,,');
+      expect(value.replaceSeparator('1,2,3\n1 2 3\n1\t2\t3\t')).toBe('1,2,3\n1,2,3\n1,2,3,');
+    });
+  });
+  describe('fixNewLine()', () => {
+    test('fixNewLine', () => {
+      expect(value.fixNewLine()).toBe('');
+      expect(value.fixNewLine('\r')).toBe('\n');
+      expect(value.fixNewLine('\r\n')).toBe('\n');
+      expect(value.fixNewLine('\n')).toBe('\n');
+      expect(value.fixNewLine('\r\r\n\n')).toBe('\n\n\n');
+      expect(value.fixNewLine('value')).toBe('value');
+      expect(value.fixNewLine('value\nvalue')).toBe('value\nvalue');
+      expect(value.fixNewLine('value\r\nvalue\r\n')).toBe('value\nvalue\n');
     });
   });
   describe('uuid()', () => {

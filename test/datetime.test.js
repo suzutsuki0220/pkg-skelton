@@ -1,7 +1,7 @@
 describe('datetime', () => {
   let datetime;
   beforeEach(() => {
-    datetime = require('../src/datetime');
+    datetime = require('../config').require.jsUtils.datetime;
   })
 
   describe('isValidString()', () => {
@@ -38,6 +38,29 @@ describe('datetime', () => {
   describe('getDateFromDatetimeString()', () => {
     test('getDateFromDatetimeString', () => {
       expect(datetime.getDateFromDatetimeString('1970/01/01 00:00:00.000')).toBe(0);
+    })
+  })
+
+  describe('roundMilliEpoc()', () => {
+    test('roundMilliEpoc', () => {
+      expect(datetime.roundMilliEpoc(0)).toBe(0);
+      expect(datetime.roundMilliEpoc(1)).toBe(0);
+      expect(datetime.roundMilliEpoc(999)).toBe(0);
+      expect(datetime.roundMilliEpoc(1000)).toBe(1000);
+      expect(datetime.roundMilliEpoc(1999)).toBe(1000);
+      expect(datetime.roundMilliEpoc(2000)).toBe(2000);
+    })
+  })
+
+  describe('isMatchInSeconds()', () => {
+    test('isMatchInSeconds', () => {
+      expect(datetime.isMatchInSeconds(0, 0)).toBe(true);
+      expect(datetime.isMatchInSeconds(1, 0)).toBe(true);
+      expect(datetime.isMatchInSeconds(0, 1)).toBe(true);
+      expect(datetime.isMatchInSeconds(1000, 1000)).toBe(true);
+      expect(datetime.isMatchInSeconds(1000, 1001)).toBe(true);
+      expect(datetime.isMatchInSeconds(999, 1000)).toBe(false);
+      expect(datetime.isMatchInSeconds(0, 1000)).toBe(false);
     })
   })
 })
