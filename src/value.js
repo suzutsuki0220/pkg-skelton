@@ -10,15 +10,18 @@ module.exports.replaceNanToZero = function(value) {
 };
 
 module.exports.zeroPadding = function(num, zeros) {
-    var padding = "";
+    var padding = '';
+    var minus = '';
 
-    num = num || 0;
-    const minus = num < 0 ? "-" : "";
-    const abs_num = Math.abs(num);
-    const num_str = String(abs_num);
+    var num_str = (typeof num === 'string') ? num : String(num || 0);
+
+    if (num_str.charAt(0) === '-') {
+        minus = '-';
+        num_str = num_str.substr(1);
+    }
 
     for (var i=0; i<zeros - num_str.length; i++) {
-        padding += "0";
+        padding += '0';
     }
 
     return minus + padding + num_str;
