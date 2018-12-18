@@ -13,6 +13,31 @@ describe('value', () => {
       expect(value.replaceNanToZero(1)).toBe(1);
     });
   });
+  describe('zeroPadding()', () => {
+    test('zeroPadding', () => {
+      expect(value.zeroPadding()).toBe('0');
+      expect(value.zeroPadding(NaN)).toBe('0');
+      expect(value.zeroPadding(NaN,0)).toBe('0');
+      expect(value.zeroPadding(0,0)).toBe('0');
+      expect(value.zeroPadding(1,0)).toBe('1');
+      expect(value.zeroPadding(0,1)).toBe('0');
+      expect(value.zeroPadding(1,1)).toBe('1');
+      expect(value.zeroPadding(1,2)).toBe('01');
+      expect(value.zeroPadding(0,2)).toBe('00');
+      expect(value.zeroPadding(10,2)).toBe('10');
+      expect(value.zeroPadding(10,3)).toBe('010');
+      expect(value.zeroPadding(100,2)).toBe('100');
+      expect(value.zeroPadding(100,3)).toBe('100');
+      expect(value.zeroPadding(-1,0)).toBe('-1');
+      expect(value.zeroPadding(-1,1)).toBe('-1');
+      expect(value.zeroPadding(-1,2)).toBe('-01');
+      expect(value.zeroPadding(-1,3)).toBe('-001');
+      expect(value.zeroPadding(-10,1)).toBe('-10');
+      expect(value.zeroPadding(-10,2)).toBe('-10');
+      expect(value.zeroPadding(-10,3)).toBe('-010');
+      expect(value.zeroPadding(-100,3)).toBe('-100');
+    });
+  });
   describe('normalize()', () => {
     test('normalize', () => {
       expect(value.normalize(0, 0, 10)).toBe(0);

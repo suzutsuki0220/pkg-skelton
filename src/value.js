@@ -9,6 +9,21 @@ module.exports.replaceNanToZero = function(value) {
     return ret;
 };
 
+module.exports.zeroPadding = function(num, zeros) {
+    var padding = "";
+
+    num = num || 0;
+    const minus = num < 0 ? "-" : "";
+    const abs_num = Math.abs(num);
+    const num_str = String(abs_num);
+
+    for (var i=0; i<zeros - num_str.length; i++) {
+        padding += "0";
+    }
+
+    return minus + padding + num_str;
+};
+
 // value を最小値から最大値の間に収めるように返す
 module.exports.normalize = function(input, min, max) {
     if (isNaN(input) === true) {

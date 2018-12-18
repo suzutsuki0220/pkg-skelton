@@ -1,29 +1,20 @@
+const value = require('./value');
+
 const datetime_pattern = /(\d{4})[-\/](\d\d)[-\/](\d\d) (\d\d):(\d\d):([\d\.]+)/;
 
-function formatNumber(num, zeros) {
-    var ret = "";
-
-    for (var i=0; i<zeros; i++) {
-        ret += "0";
-    }
-    ret += String(num);
-
-    return ret.substr(zeros * -1);
-}
-
 function getDateStr(d, delim) {
-    const year  = formatNumber(d.getUTCFullYear(), 4);
-    const month = formatNumber(d.getUTCMonth() + 1, 2);
-    const date  = formatNumber(d.getUTCDate(), 2);
+    const year  = value.zeroPadding(d.getUTCFullYear(), 4);
+    const month = value.zeroPadding(d.getUTCMonth() + 1, 2);
+    const date  = value.zeroPadding(d.getUTCDate(), 2);
 
     return year + delim + month + delim + date;
 }
 
 function getTimeStr(d, add_msec) {
-    const hour  = formatNumber(d.getUTCHours(), 2);
-    const min   = formatNumber(d.getUTCMinutes(), 2);
-    const sec   = formatNumber(d.getUTCSeconds(), 2);
-    const msec  = add_msec ? "." + formatNumber(d.getUTCMilliseconds(), 3) : "";
+    const hour  = value.zeroPadding(d.getUTCHours(), 2);
+    const min   = value.zeroPadding(d.getUTCMinutes(), 2);
+    const sec   = value.zeroPadding(d.getUTCSeconds(), 2);
+    const msec  = add_msec ? "." + value.zeroPadding(d.getUTCMilliseconds(), 3) : "";
 
     return hour + ":" + min + ":" + sec + msec;
 }
