@@ -30,7 +30,7 @@ module.exports.zeroPadding = function(num, zeros) {
 // value を最小値から最大値の間に収めるように返す
 module.exports.normalize = function(input, min, max) {
     if (isNaN(input) === true) {
-        return 0;
+        return min;
     }
 
     return input > max ? max : (input < min ? min : input);

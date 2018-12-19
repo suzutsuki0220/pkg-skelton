@@ -41,12 +41,22 @@ describe('datetime', () => {
 
   describe('getDateFromDatetimeString()', () => {
     test('getDateFromDatetimeString', () => {
+      expect(datetime.getDateFromDatetimeString()).toBe(NaN);
+      expect(datetime.getDateFromDatetimeString('')).toBe(NaN);
+      expect(datetime.getDateFromDatetimeString('1999/01/01')).toBe(NaN);
+      expect(datetime.getDateFromDatetimeString('00:00:00.000')).toBe(NaN);
+      expect(datetime.getDateFromDatetimeString('99/01/01 00:00:00.000')).toBe(NaN);
+      expect(datetime.getDateFromDatetimeString('1999/1/1 00:00:00.000')).toBe(NaN);
+      expect(datetime.getDateFromDatetimeString('1999/01/01 0:0:0.000')).toBe(NaN);
+      expect(datetime.getDateFromDatetimeString('1970/01/01 00:00:00')).toBe(0);
       expect(datetime.getDateFromDatetimeString('1970/01/01 00:00:00.000')).toBe(0);
     })
   })
 
   describe('roundMilliEpoc()', () => {
     test('roundMilliEpoc', () => {
+      expect(datetime.roundMilliEpoc()).toBe(NaN);
+      expect(datetime.roundMilliEpoc(NaN)).toBe(NaN);
       expect(datetime.roundMilliEpoc(0)).toBe(0);
       expect(datetime.roundMilliEpoc(1)).toBe(0);
       expect(datetime.roundMilliEpoc(999)).toBe(0);
@@ -58,6 +68,12 @@ describe('datetime', () => {
 
   describe('isMatchInSeconds()', () => {
     test('isMatchInSeconds', () => {
+      expect(datetime.isMatchInSeconds()).toBe(false);
+      expect(datetime.isMatchInSeconds(0)).toBe(false);
+      expect(datetime.isMatchInSeconds(10)).toBe(false);
+      expect(datetime.isMatchInSeconds(NaN)).toBe(false);
+      expect(datetime.isMatchInSeconds(NaN, 0)).toBe(false);
+      expect(datetime.isMatchInSeconds(NaN, NaN)).toBe(false);
       expect(datetime.isMatchInSeconds(0, 0)).toBe(true);
       expect(datetime.isMatchInSeconds(1, 0)).toBe(true);
       expect(datetime.isMatchInSeconds(0, 1)).toBe(true);
