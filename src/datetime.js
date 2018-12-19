@@ -24,7 +24,7 @@ module.exports.isValidString = function(datetime_str) {
 };
 
 module.exports.toUTCString = function(epoc) {
-    const d = new Date(epoc);
+    const d = new Date(value.replaceNanToZero(epoc));
 
     return getDateStr(d, "/") + " " + getTimeStr(d, true);
 };
@@ -36,7 +36,7 @@ module.exports.toString = function(epoc) {
 };
 
 module.exports.toRFC3339UTC = function(epoc) {
-    const d = new Date(epoc);
+    const d = new Date(value.replaceNanToZero(epoc));
 
     return getDateStr(d, "-") + "T" + getTimeStr(d, false) + "Z";
 };
@@ -62,12 +62,20 @@ module.exports.getDateFromDatetimeString = function(datetime_str) {
 };
 
 module.exports.roundMilliEpoc = function(milli_epoc) {
+    if (isNaN(milli_epoc) === true) {
+        return NaN;
+    }
+
     return Math.floor(milli_epoc / 1000) * 1000;
 };
 
 module.exports.isMatchInSeconds = function(epoc1, epoc2) {
-    var dt1 = Math.floor(epoc1 / 1000) * 1000;
-    var dt2 = Math.floor(epoc2 / 1000) * 1000;
+    const dt1 = this.roundMilliEpoc(epoc1);
+    const dt2 = this.roundMilliEpoc(epoc2);
+
+    if (isNaN(dt1) === true || isNaN(dt2) === true) {
+        return false;
+    }
 
     return dt1 === dt2 ? true : false;
 };

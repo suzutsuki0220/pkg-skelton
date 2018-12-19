@@ -16,6 +16,8 @@ describe('datetime', () => {
 
   describe('toUTCString()', () => {
     test('toUTCString', () => {
+      expect(datetime.toUTCString()).toBe('1970/01/01 00:00:00.000');
+      expect(datetime.toUTCString(NaN)).toBe('1970/01/01 00:00:00.000');
       expect(datetime.toUTCString(0)).toBe('1970/01/01 00:00:00.000');
       expect(datetime.toUTCString(1000)).toBe('1970/01/01 00:00:01.000');
     })
@@ -30,6 +32,8 @@ describe('datetime', () => {
 
   describe('toRFC3339UTC()', () => {
     test('toRFC3339UTC', () => {
+      expect(datetime.toRFC3339UTC()).toBe('1970-01-01T00:00:00Z');
+      expect(datetime.toRFC3339UTC(NaN)).toBe('1970-01-01T00:00:00Z');
       expect(datetime.toRFC3339UTC(0)).toBe('1970-01-01T00:00:00Z');
       expect(datetime.toRFC3339UTC(1000)).toBe('1970-01-01T00:00:01Z');
     })
