@@ -45,6 +45,7 @@ exports.init = function() {
 
     httpRequest = createXhr();
     httpRequest.onreadystatechange = stateChangedWork;
+    httpRequest.addEventListener("error", function() {onError_func(httpRequest);});
 
     if (httpRequest.overrideMimeType) {
         httpRequest.overrideMimeType('text/xml');

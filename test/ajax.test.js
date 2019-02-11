@@ -100,4 +100,19 @@ describe('ajax', () => {
       ajax.post(access_test_url, null);
     });
   });
-})
+
+  describe('fail()', () => {
+    test('connection fail', done => {
+      function fetchData(xhr) {
+        stopHttpServer();
+        expect(xhr.status).toBe(0);
+        done();
+      }
+
+      ajax.setOnSuccess(fetchData);
+      ajax.setOnError(fetchData);
+      ajax.post("http://example.invalid/", null);
+//      expect(received_request.method.toUpperCase()).toBe('POST');
+    });
+  });
+});
