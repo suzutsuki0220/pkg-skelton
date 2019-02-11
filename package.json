@@ -1,6 +1,6 @@
 {
   "name": "js-utils",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "JavaScript library for npm package",
   "license": "MIT",
   "main": "index.js",
@@ -16,6 +16,7 @@
     "url": "git@github.com:suzutsuki0220/jsUtils.git"
   },
   "dependencies": {
+    "dom-parser": "^0.1.5",
     "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
