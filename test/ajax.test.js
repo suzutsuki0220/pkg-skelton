@@ -103,14 +103,19 @@ describe('ajax', () => {
 
   describe('fail()', () => {
     test('connection fail', done => {
-      function fetchData(xhr) {
+      function onSuccess(xhr) {
         stopHttpServer();
-        expect(xhr.status).toBe(0);
+        expect(false).toBe(true);  // always fail
+        done();
+      }
+      function onError(xhr) {
+        stopHttpServer();
+        expect(xhr.status).not.toBe(200);
         done();
       }
 
-      ajax.setOnSuccess(fetchData);
-      ajax.setOnError(fetchData);
+      ajax.setOnSuccess(onSuccess);
+      ajax.setOnError(onError);
       ajax.post("http://example.invalid/", null);
 //      expect(received_request.method.toUpperCase()).toBe('POST');
     });
