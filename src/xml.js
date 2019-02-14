@@ -32,15 +32,13 @@ module.exports.getFirstFoundChildNode = function(xml, name) {
 //   <name>...data...</name>  の ...data... を取得
 // 再帰的な検索と、同名のタグを検索しないためデータが増えたときに重くなりにくい
 module.exports.getFirstFoundTagData = function(elements, name) {
-    if (elements == null) {
+    if (elements == null || isNaN(elements.length)) {
         return "";
     }
 
-    if (elements.length) {
-        for (var i=0; i<elements.length; i++) {
-            if (elements.item(i).tagName === name) {
-                return elements.item(i).textContent;
-            }
+    for (var i=0; i<elements.length; i++) {
+        if (elements.item(i).tagName === name) {
+            return elements.item(i).textContent;
         }
     }
 
