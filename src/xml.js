@@ -1,6 +1,6 @@
 module.exports.getDom = function(data) {
     if (typeof data === 'string') {
-        const dp = (typeof DOMParser === 'undefined') ? require('dom-parser') : DOMParser;  // nodejs or browser
+        const dp = (typeof DOMParser === 'undefined') ? require('xmldom').DOMParser : DOMParser;  // nodejs or browser
         const parser = new dp();
         return parser.parseFromString(data, "application/xml");
     }
@@ -10,18 +10,18 @@ module.exports.getDom = function(data) {
 
 // 引数で指定された名前のノードを返す
 // getElementsByTagName()とは違い、再帰的な検索は行わない
-module.exports.getFirstFoundChildNode = function(element, name) {
-    if (element == null) {
+module.exports.getFirstFoundChildNode = function(xml, name) {
+    if (xml == null) {
         return null;
     }
 
-    if (element.childNodes == null) {
+    if (xml.childNodes == null) {
         return null;
     }
 
-    for (var i=0; i<element.childNodes.length; i++) {
-        if (element.childNodes.item(i).nodeName === name) {
-            return element.childNodes.item(i);
+    for (var i=0; i<xml.childNodes.length; i++) {
+        if (xml.childNodes.item(i).nodeName === name) {
+            return xml.childNodes.item(i);
         }
     }
 
@@ -29,6 +29,7 @@ module.exports.getFirstFoundChildNode = function(element, name) {
 };
 
 // 引数で指定されたchildNodesから最初に見つかったnameのデータを取得する
+//   <name>...data...</name>  の ...data... を取得
 // 再帰的な検索と、同名のタグを検索しないためデータが増えたときに重くなりにくい
 module.exports.getFirstFoundTagData = function(elements, name) {
     if (elements == null) {
@@ -44,4 +45,20 @@ module.exports.getFirstFoundTagData = function(elements, name) {
     }
 
     return "";
-}
+};
+
+// element名の子ノード内の tag_names に指定された名前の tag のデータを取得する
+module.exports.getDataInElements = function(xml, element_name, tag_names) {
+    const elements = this.getFirstFoundChildNode(xml, element_name);
+    if (elements === null) {
+        return null;
+    }
+
+    var data = new Object();
+    for (var j=0; j<tag_names.length; j++) {
+        const name = tag_names[j];
+        data[name] = this.getFirstFoundTagData(elements.childNodes, name)
+    }
+
+    return data;
+};
