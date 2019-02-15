@@ -11,6 +11,12 @@ module.exports.getDom = function(data) {
 // 引数で指定された名前のノードを返す
 // getElementsByTagName()とは違い、再帰的な検索は行わない
 module.exports.getFirstFoundChildNode = function(xml, name) {
+    const ret = this.getChildNode(xml, name, true)
+
+    return ret ? ret[0] : null;
+}
+
+module.exports.getChildNode = function(xml, name, single) {
     if (xml == null) {
         return null;
     }
@@ -19,13 +25,17 @@ module.exports.getFirstFoundChildNode = function(xml, name) {
         return null;
     }
 
+    var ret = new Array();
     for (var i=0; i<xml.childNodes.length; i++) {
         if (xml.childNodes.item(i).nodeName === name) {
-            return xml.childNodes.item(i);
+            ret.push(xml.childNodes.item(i));
+            if (single === true) {
+                break;
+            }
         }
     }
 
-    return null;
+    return ret.length !== 0 ? ret : null;
 };
 
 // 引数で指定されたchildNodesから最初に見つかったnameのデータを取得する
@@ -47,16 +57,20 @@ module.exports.getFirstFoundTagData = function(elements, name) {
 
 // element名の子ノード内の tag_names に指定された名前の tag のデータを取得する
 module.exports.getDataInElements = function(xml, element_name, tag_names) {
-    const elements = this.getFirstFoundChildNode(xml, element_name);
+    const elements = this.getChildNode(xml, element_name);
     if (elements === null) {
         return null;
     }
 
-    var data = new Object();
-    for (var j=0; j<tag_names.length; j++) {
-        const name = tag_names[j];
-        data[name] = this.getFirstFoundTagData(elements.childNodes, name)
+    var ret = new Array();
+    for (var i=0; i<elements.length; i++) {
+        var data = new Object();
+        for (var j=0; j<tag_names.length; j++) {
+            const name = tag_names[j];
+            data[name] = this.getFirstFoundTagData(elements[i].childNodes, name)
+        }
+        ret.push(data);
     }
 
-    return data;
+    return ret;
 };

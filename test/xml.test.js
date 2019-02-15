@@ -26,7 +26,7 @@ describe('xml', () => {
   describe('getDataInElements()', () => {
     test('getDataInElements', () => {
       var elem = xml.getDom("<xml><a>A Data</a><b>B data</b></xml>");
-      expect(xml.getDataInElements(elem, "xml", ["a", "b"])).toEqual({a: "A Data", b: "B data"});
+      expect(xml.getDataInElements(elem, "xml", ["a", "b"])).toEqual([{a: "A Data", b: "B data"}]);
     });
   });
 });
