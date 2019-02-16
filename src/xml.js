@@ -11,12 +11,12 @@ module.exports.getDom = function(data) {
 // 引数で指定された名前のノードを返す
 // getElementsByTagName()とは違い、再帰的な検索は行わない
 module.exports.getFirstFoundChildNode = function(xml, name) {
-    const ret = this.getChildNode(xml, name, true)
+    const ret = this.getChildNodes(xml, name, true)
 
     return ret ? ret[0] : null;
 }
 
-module.exports.getChildNode = function(xml, name, single) {
+module.exports.getChildNodes = function(xml, name, single) {
     if (xml == null) {
         return null;
     }
@@ -57,7 +57,7 @@ module.exports.getFirstFoundTagData = function(elements, name) {
 
 // element名の子ノード内の tag_names に指定された名前の tag のデータを取得する
 module.exports.getDataInElements = function(xml, element_name, tag_names) {
-    const elements = this.getChildNode(xml, element_name, false);
+    const elements = this.getChildNodes(xml, element_name, false);
     if (elements === null) {
         return null;
     }
