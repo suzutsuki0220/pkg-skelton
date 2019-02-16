@@ -74,3 +74,22 @@ module.exports.getDataInElements = function(xml, element_name, tag_names) {
 
     return ret;
 };
+
+module.exports.getAttributes = function(xml) {
+    var ret = new Object();
+
+    if (xml == null) {
+        return ret;
+    }
+
+    const attributes = xml.attributes;
+
+    if (attributes) {
+        for (var i=0; i<attributes.length; i++) {
+            const a = attributes[i];
+            ret[a.name] = a.nodeValue;
+        }
+    }
+
+    return ret;
+};

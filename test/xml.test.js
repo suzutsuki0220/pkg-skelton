@@ -29,4 +29,12 @@ describe('xml', () => {
       expect(xml.getDataInElements(elem, "xml", ["a", "b"])).toEqual([{a: "A Data", b: "B data"}]);
     });
   });
+
+  describe('getAttributes()', () => {
+    test('get attribute', () => {
+      var elem = xml.getDom("<xml><a name='a_name' id='a_id'>A Data</a><b>B data</b></xml>");
+      const a = xml.getFirstFoundChildNode(xml.getFirstFoundChildNode(elem, "xml"), "a");
+      expect(xml.getAttributes(a)).toEqual({name: "a_name", id: "a_id"});
+    });
+  });
 });
