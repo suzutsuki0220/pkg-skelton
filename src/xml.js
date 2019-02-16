@@ -57,7 +57,7 @@ module.exports.getFirstFoundTagData = function(elements, name) {
 
 // element名の子ノード内の tag_names に指定された名前の tag のデータを取得する
 module.exports.getDataInElements = function(xml, element_name, tag_names) {
-    const elements = this.getChildNode(xml, element_name);
+    const elements = this.getChildNode(xml, element_name, false);
     if (elements === null) {
         return null;
     }
