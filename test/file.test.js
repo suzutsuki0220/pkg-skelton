@@ -23,4 +23,22 @@ describe('file', () => {
       expect(fs.unlinkSync(tmp_file)).toBe(undefined);
     });
   });
+
+  describe('addDataScheme()', () => {
+    test('addDataScheme', () => {
+      expect(file.addDataScheme('data:image/png;base64,', 'image/png', 'base64')).toBe('data:image/png;base64,');
+      expect(file.addDataScheme('data:image/png;base64,iVBOR', 'image/png', 'base64')).toBe('data:image/png;base64,iVBOR');
+      expect(file.addDataScheme('iVBOR', 'image/png', 'base64')).toBe('data:image/png;base64,iVBOR');
+      expect(file.addDataScheme('', 'image/png', 'base64')).toBe('data:image/png;base64,');
+    });
+  });
+
+  describe('removeDataScheme()', () => {
+    test('removeDataScheme', () => {
+      expect(file.removeDataScheme('data:image/png;base64,')).toBe('');
+      expect(file.removeDataScheme('data:image/png;base64,iVBOR')).toBe('iVBOR');
+      expect(file.removeDataScheme('iVBOR')).toBe('iVBOR');
+      expect(file.removeDataScheme('')).toBe('');
+    });
+  });
 });

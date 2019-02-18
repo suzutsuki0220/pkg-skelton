@@ -20,6 +20,29 @@ module.exports.saveBlob = function(data, filename) {
     }
 };
 
+module.exports.dataScheme = function(mime, encoding) {
+    // mime: image/png, text/plain ...
+    // encoding: base64, charset=utf8 ...
+    return 'data:' + mime + ';' + encoding + ',';
+}
+
+module.exports.hasDataScheme = function(src_data) {
+    return src_data.startsWith('data:');
+}
+
+module.exports.addDataScheme = function(src_data, mime, encoding) {
+    return this.hasDataScheme(src_data) === false ? this.dataScheme(mime, encoding) + src_data : src_data;
+}
+
+module.exports.removeDataScheme = function(src_data) {
+    if (this.hasDataScheme(src_data) === true) {
+        const comma_pos = src_data.indexOf(',');
+        return src_data.slice(comma_pos + 1);
+    }
+
+    return src_data;
+}
+
 // available encoding
 //   utf8(default), ascii, utf16le, ucs2, base64, hex
 module.exports.load = function(filename, encoding) {
@@ -49,7 +72,7 @@ module.exports.FileToBase64 = function(filename) {
 
 module.exports.Base64ToFile = function(b64data, filename) {
     const Buffer = require('buffer').Buffer;
-    const buf = Buffer.from(b64data, 'base64');
+    const buf = Buffer.from(this.removeDataScheme(b64data), 'base64');
 
     this.save(filename, buf);
 };
