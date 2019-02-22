@@ -11,13 +11,17 @@ module.exports.saveBlob = function(data, filename) {
         const url = (window.URL || window.webkitURL);  // 古いchrome向けのおまじない
         const dataUrl = url.createObjectURL(blob);
 
-        var a = document.createElement('a');
-        a.href = dataUrl;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
+        this.DownloadWithDummyAnchor(dataUrl, filename);
     }
+};
+
+module.exports.DownloadWithDummyAnchor = function(url, filename) {
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
 };
 
 module.exports.dataScheme = function(mime, encoding) {

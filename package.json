@@ -1,6 +1,6 @@
 {
   "name": "js-utils",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "JavaScript library for npm package",
   "license": "MIT",
   "main": "index.js",
