@@ -58,6 +58,12 @@ exports.close = function() {
     }
 };
 
+exports.abort = function() {
+    if (httpRequest) {
+        httpRequest.abort();
+    }
+};
+
 exports.setOnLoading = function(func) {
     loading_func = func || noWork;
 };

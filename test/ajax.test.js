@@ -120,4 +120,19 @@ describe('ajax', () => {
 //      expect(received_request.method.toUpperCase()).toBe('POST');
     });
   });
+
+  describe('abort()', () => {
+    test('expect 0', done => {
+      function fetchData(xhr) {
+        expect(xhr.status).toBe(0);
+        stopHttpServer();
+        done();
+      }
+
+      ajax.setOnSuccess(fetchData);
+      ajax.setOnError(fetchData);
+      ajax.get(access_test_url);
+      ajax.abort();
+    });
+  });
 });
