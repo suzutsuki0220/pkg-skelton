@@ -125,8 +125,10 @@ describe('ajax', () => {
     test('expect 0', done => {
       function fetchData(xhr) {
         expect(xhr.status).toBe(0);
-        stopHttpServer();
-        done();
+        setTimeout(function() {
+            stopHttpServer();
+            done();
+        }, 1000);
       }
 
       ajax.setOnSuccess(fetchData);
