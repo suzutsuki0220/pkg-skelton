@@ -17,7 +17,7 @@ module.exports.zeroPadding = function(num, zeros) {
 
     if (num_str.charAt(0) === '-') {
         minus = '-';
-        num_str = num_str.substr(1);
+        num_str = num_str.substring(1);
     }
 
     for (var i=0; i<zeros - num_str.length; i++) {
