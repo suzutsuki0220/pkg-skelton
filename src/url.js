@@ -5,7 +5,7 @@ module.exports.getQueryInUrl = function(url) {
     return delim_idx >= 0 ? url.substring(delim_idx + 1) : "";
 };
 
-module.exports.getParams = function(url) {
+module.exports.getRawParams = function(url) {
     if (!url && typeof(window) != 'undefined') url = window.location.href;
     var params = new Object();
 
@@ -19,6 +19,17 @@ module.exports.getParams = function(url) {
         } else if (delim < 0 && arry[i]) {
             const name = arry[i];
             params[name] = "";
+        }
+    }
+
+    return params;
+};
+
+module.exports.getParams = function(url) {
+    var params = this.getRawParams(url);
+    for (var p in params) {
+        if (params.hasOwnProperty(p)) {
+            params[p] = decodeURIComponent(params[p].replace(/\+/g, " "));
         }
     }
 
