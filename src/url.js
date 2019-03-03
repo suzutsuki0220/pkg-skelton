@@ -1,3 +1,12 @@
+function splitSection(value) {
+    const idx = value.indexOf('#');
+    if (idx >= 0) {
+        value = value.substring(0, idx);
+    }
+
+    return value;
+}
+
 module.exports.getQueryInUrl = function(url) {
     if (!url && typeof(window) != 'undefined') url = window.location.href;
     const delim_idx = url.indexOf('?');
@@ -15,9 +24,9 @@ module.exports.getRawParams = function(url) {
 
         if (delim > 0) {
             const name  = arry[i].substring(0, delim);  // name
-            params[name] = arry[i].substring(delim + 1); // data
+            params[name] = splitSection(arry[i].substring(delim + 1)); // data
         } else if (delim < 0 && arry[i]) {
-            const name = arry[i];
+            const name = splitSection(arry[i]);
             params[name] = "";
         }
     }
