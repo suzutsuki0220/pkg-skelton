@@ -1,3 +1,7 @@
+function getWindowLocationHref() {
+    return typeof(window) !== 'undefined' ? window.location.href : "";
+}
+
 function splitSection(value) {
     const idx = value.indexOf('#');
     if (idx >= 0) {
@@ -8,14 +12,14 @@ function splitSection(value) {
 }
 
 module.exports.getQueryInUrl = function(url) {
-    if (!url && typeof(window) != 'undefined') url = window.location.href;
+    if (!url) url = getWindowLocationHref();
     const delim_idx = url.indexOf('?');
 
     return delim_idx >= 0 ? url.substring(delim_idx + 1) : "";
 };
 
 module.exports.getRawParams = function(url) {
-    if (!url && typeof(window) != 'undefined') url = window.location.href;
+    if (!url) url = getWindowLocationHref();
     var params = new Object();
 
     const arry = this.getQueryInUrl(url).split('&');
