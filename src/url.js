@@ -19,7 +19,6 @@ module.exports.getQueryInUrl = function(url) {
 };
 
 module.exports.getRawParams = function(url) {
-    if (!url) url = getWindowLocationHref();
     var params = new Object();
 
     const arry = this.getQueryInUrl(url).split('&');
