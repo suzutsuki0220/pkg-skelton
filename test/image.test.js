@@ -18,6 +18,22 @@ describe('image', () => {
     });
   });
 
+  describe('isLandscape()', () => {
+    test('isLandscape', () => {
+      expect(image.isLandscape({width: 480, height: 480})).toBe(true);
+      expect(image.isLandscape({width: 640, height: 480})).toBe(true);
+      expect(image.isLandscape({width: 480, height: 640})).toBe(false);
+    });
+  });
+
+  describe('isPortrait()', () => {
+    test('isPortrait', () => {
+      expect(image.isPortrait({width: 480, height: 480})).toBe(true);
+      expect(image.isPortrait({width: 640, height: 480})).toBe(false);
+      expect(image.isPortrait({width: 480, height: 640})).toBe(true);
+    });
+  });
+
   describe('getAreaSize()', () => {
     test('getAreaSize', () => {
       expect(image.getAreaSize({width: 640, height: 480})).toBe(307200);
@@ -26,6 +42,31 @@ describe('image', () => {
       expect(image.getAreaSize({width: 0, height: 1})).toBe(0);
       expect(image.getAreaSize({width: 0, height: 0})).toBe(0);
       expect(image.getAreaSize()).toBe(0);
+    });
+  });
+
+  describe('getAspect()', () => {
+    test('getAspect', () => {
+      expect(image.getAspect({width: 0, height: 0})).toBe(null);
+      expect(image.getAspect({width: 1, height: 1})).toEqual({x: 1, y: 1});
+      expect(image.getAspect({width: 320, height: 240})).toEqual({x: 4, y: 3});
+      expect(image.getAspect({width: 640, height: 480})).toEqual({x: 4, y: 3});
+      expect(image.getAspect({width: 480, height: 480})).toEqual({x: 1, y: 1});
+      expect(image.getAspect({width: 1280, height: 720})).toEqual({x: 16, y: 9});
+      expect(image.getAspect({width: NaN, height: NaN})).toBe(null);
+    });
+  });
+
+  describe('getMaximumFitSize()', () => {
+    test('getMaximumFitSize', () => {
+      expect(image.getMaximumFitSize({width: 1, height: 1}, {width: 640, height: 480})).toEqual({width: 480, height: 480});
+      expect(image.getMaximumFitSize({width: 1, height: 1}, {width: 480, height: 640})).toEqual({width: 480, height: 480});
+      expect(image.getMaximumFitSize({width: 640, height: 480}, {width: 640, height: 480})).toEqual({width: 640, height: 480});
+      expect(image.getMaximumFitSize({width: 480, height: 640}, {width: 640, height: 480})).toEqual({width: 360, height: 480});
+      expect(image.getMaximumFitSize({width: 640, height: 480}, {width: 480, height: 640})).toEqual({width: 480, height: 360});
+      expect(image.getMaximumFitSize({width: 480, height: 640}, {width: 480, height: 640})).toEqual({width: 480, height: 640});
+      expect(image.getMaximumFitSize({width: 1280, height: 720}, {width: 640, height: 480})).toEqual({width: 640, height: 360});
+      expect(image.getMaximumFitSize({width: 1280, height: 960}, {width: 640, height: 480})).toEqual({width: 640, height: 480});
     });
   });
 

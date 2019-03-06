@@ -1,3 +1,5 @@
+const value = require('./value');
+
 function makeCanvas(size) {
     if (typeof document === 'undefined') {
         const { createCanvas } = require('canvas');
@@ -22,12 +24,46 @@ module.exports.isValidSize = function(size) {
     return false;
 };
 
+// 画像が横長であるか
+module.exports.isLandscape = function(size) {
+    return (size.width >= size.height) ? true : false;
+};
+
+// 画像が縦長であるか
+module.exports.isPortrait = function(size) {
+    if (size.width === size.height) {
+        return true;
+    }
+
+    return !(this.isLandscape(size));
+};
+
 module.exports.getAreaSize = function(size) {
     if (this.isValidSize(size) === false) {
         return 0;
     }
 
     return size.width * size.height;
+};
+
+module.exports.getAspect = function(size) {
+    const ratio = value.getGcd(size.width, size.height);
+    if(ratio != 0) {
+        return {
+            x: size.width  / ratio,
+            y: size.height / ratio
+        };
+    }
+
+    return null;
+};
+
+// 指定された枠組みに収まる最大のサイズ
+module.exports.getMaximumFitSize = function(source_size, area_size) {
+    const scale_w = area_size.width / source_size.width;
+    const scale_h = area_size.height / source_size.height;
+
+    return this.getScaledSize(source_size, Math.min(scale_w, scale_h));
 };
 
 module.exports.getScale = function(src_size, target_dimension) {
