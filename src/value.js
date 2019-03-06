@@ -27,6 +27,23 @@ module.exports.zeroPadding = function(num, zeros) {
     return minus + padding + num_str;
 };
 
+module.exports.percent = function(value, total_count, round_digit) {
+    if (total_count === 0) {
+        return 0;
+    }
+
+    const percent = (value / total_count) * 100;
+
+    return this.round(percent, round_digit);
+};
+
+// 指定した小数部桁数で切り捨てする
+module.exports.round = function(value, round_digit) {
+    const shift = Math.pow(10, this.replaceNanToZero(round_digit));
+
+    return Math.floor(value * shift) / shift;
+};
+
 // value を最小値から最大値の間に収めるように返す
 module.exports.normalize = function(input, min, max) {
     if (isNaN(input) === true) {
