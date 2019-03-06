@@ -66,6 +66,26 @@ module.exports.getMax = function(value, max) {
     return isNaN(max) ? value : (max < value ? value : max);
 };
 
+// 2つの値の最大公約数を求める 見つからない場合は0
+module.exports.getGcd = function(a, b) {
+    if (!a || !b) {
+        return 0;
+    }
+
+    while (a != b) {
+        if (a > b) {
+            r = a - b;
+            a = b;
+            b = r;
+        } else {
+            r = b - a;
+            b = r;
+        }
+    }
+
+    return a;
+}
+
 // CSV等の区切り文字を ',' に統一する
 module.exports.replaceSeparator = function(string) {
     return string ? string.replace(/[\t ]/g, ',') : "";

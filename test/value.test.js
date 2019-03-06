@@ -75,6 +75,20 @@ describe('value', () => {
       expect(minmax.max).toBe(3);
     });
   });
+  describe('getGcd()', () => {
+    test('getGcd', () => {
+      expect(value.getGcd()).toBe(0);
+      expect(value.getGcd(0,0)).toBe(0);
+      expect(value.getGcd(1,1)).toBe(1);
+      expect(value.getGcd(10,10)).toBe(10);
+      expect(value.getGcd(21,3)).toBe(3);
+      expect(value.getGcd(3,21)).toBe(3);
+      expect(value.getGcd(320,240)).toBe(80);
+      expect(value.getGcd(640,480)).toBe(160);
+      expect(value.getGcd(480,640)).toBe(160);
+      expect(value.getGcd(10,11)).toBe(1);
+    });
+  });
   describe('replaceSeparator()', () => {
     test('replaceSeparator', () => {
       expect(value.replaceSeparator()).toBe('');
