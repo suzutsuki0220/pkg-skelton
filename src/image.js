@@ -12,7 +12,29 @@ function makeImage() {
     return new i();
 }
 
+module.exports.isValidSize = function(size) {
+    if (size && isNaN(size.width) === false && isNaN(size.height) === false) {
+        if (size.width > 0 && size.height > 0) {
+            return true;
+        }
+    }
+
+    return false;
+};
+
+module.exports.getAreaSize = function(size) {
+    if (this.isValidSize(size) === false) {
+        return 0;
+    }
+
+    return size.width * size.height;
+};
+
 module.exports.getScale = function(src_size, target_dimension) {
+    if (this.isValidSize(src_size) === false) {
+        return 0;
+    }
+
     if (src_size.width > src_size.height) {
         return target_dimension / src_size.width;
     } else {
@@ -21,9 +43,12 @@ module.exports.getScale = function(src_size, target_dimension) {
 };
 
 module.exports.getScaledSize = function(src_size, scale) {
-    var ret = new Object();
-    ret.width  = Math.floor(src_size.width * scale);
-    ret.height = Math.floor(src_size.height * scale);
+    var ret = {width: 0, height: 0};
+
+    if (this.isValidSize(src_size) === true) {
+        ret.width  = Math.floor(src_size.width * scale);
+        ret.height = Math.floor(src_size.height * scale);
+    }
 
     return ret;
 };
