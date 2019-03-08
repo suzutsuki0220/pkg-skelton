@@ -73,14 +73,9 @@ module.exports.getGcd = function(a, b) {
     }
 
     while (a != b) {
-        if (a > b) {
-            r = a - b;
-            a = b;
-            b = r;
-        } else {
-            r = b - a;
-            b = r;
-        }
+        const r = Math.abs(a - b);
+        a = Math.min(a, b);
+        b = r;
     }
 
     return a;
