@@ -38,6 +38,13 @@ module.exports.isPortrait = function(size) {
     return !(this.isLandscape(size));
 };
 
+module.exports.getCenterXY = function(size) {
+    return {
+        x: Math.floor(size.width / 2),
+        y: Math.floor(size.height / 2)
+    };
+}
+
 module.exports.getAreaSize = function(size) {
     if (this.isValidSize(size) === false) {
         return 0;
@@ -64,6 +71,17 @@ module.exports.getMaximumFitSize = function(source_size, area_size) {
     const scale_h = area_size.height / source_size.height;
 
     return this.getScaledSize(source_size, Math.min(scale_w, scale_h));
+};
+
+// 中心に表示するための画像の配置位置(x,y)
+module.exports.getCenteringPositionXY = function(source_size, area_size) {
+    const source_area = this.getCenterXY(source_size);
+    const center_area = this.getCenterXY(area_size);
+
+    return {
+        x: center_area.x - source_area.x,
+        y: center_area.y - source_area.y
+    };
 };
 
 module.exports.getScale = function(src_size, target_dimension) {

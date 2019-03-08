@@ -70,6 +70,15 @@ describe('image', () => {
     });
   });
 
+  describe('getCenteringPositionXY()', () => {
+    test('getCenteringPositionXY', () => {
+      expect(image.getCenteringPositionXY({width: 1440, height: 1080}, {width: 1920, height: 1080})).toEqual({x: 240, y: 0});
+      expect(image.getCenteringPositionXY({width: 640, height: 480}, {width: 1280, height: 720})).toEqual({x: 320, y: 120});
+      expect(image.getCenteringPositionXY({width: 640, height: 480}, {width: 640, height: 480})).toEqual({x: 0, y: 0});
+      expect(image.getCenteringPositionXY({width: 640, height: 480}, {width: 641, height: 485})).toEqual({x: 0, y: 2});
+    });
+  });
+
   describe('getScale()', () => {
     test('getScale', () => {
       expect(image.getScale({width: 640, height: 480}, 1280)).toBe(2);
