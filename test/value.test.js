@@ -75,6 +75,20 @@ describe('value', () => {
       expect(minmax.max).toBe(3);
     });
   });
+  describe('getGcd()', () => {
+    test('getGcd', () => {
+      expect(value.getGcd()).toBe(0);
+      expect(value.getGcd(0,0)).toBe(0);
+      expect(value.getGcd(1,1)).toBe(1);
+      expect(value.getGcd(10,10)).toBe(10);
+      expect(value.getGcd(21,3)).toBe(3);
+      expect(value.getGcd(3,21)).toBe(3);
+      expect(value.getGcd(320,240)).toBe(80);
+      expect(value.getGcd(640,480)).toBe(160);
+      expect(value.getGcd(480,640)).toBe(160);
+      expect(value.getGcd(10,11)).toBe(1);
+    });
+  });
   describe('replaceSeparator()', () => {
     test('replaceSeparator', () => {
       expect(value.replaceSeparator()).toBe('');
@@ -100,6 +114,40 @@ describe('value', () => {
       expect(value.fixNewLine('value')).toBe('value');
       expect(value.fixNewLine('value\nvalue')).toBe('value\nvalue');
       expect(value.fixNewLine('value\r\nvalue\r\n')).toBe('value\nvalue\n');
+    });
+  });
+  describe('percent()', () => {
+    test('percent', () => {
+        expect(value.percent(0, 0)).toBe(0);
+        expect(value.percent(0, 100)).toBe(0);
+        expect(value.percent(50, 100)).toBe(50);
+        expect(value.percent(50, 100, 2)).toBe(50);
+        expect(value.percent(100, 100)).toBe(100);
+        expect(value.percent(1, 3)).toBe(33);
+        expect(value.percent(1, 3, 1)).toBe(33.3);
+        expect(value.percent(1, 3, 2)).toBe(33.33);
+    });
+  });
+  describe('round()', () => {
+    test('round', () => {
+        expect(value.round(0)).toBe(0);
+        expect(value.round(0.1)).toBe(0);
+        expect(value.round(0.1234)).toBe(0);
+        expect(value.round(0, 0)).toBe(0);
+        expect(value.round(0.1, 0)).toBe(0);
+        expect(value.round(0.1234, 0)).toBe(0);
+        expect(value.round(1, 0)).toBe(1);
+        expect(value.round(1.1, 0)).toBe(1);
+        expect(value.round(1.1234, 0)).toBe(1);
+        expect(value.round(2345.1234, 0)).toBe(2345);
+        expect(value.round(2345.1234, 2)).toBe(2345.12);
+        expect(value.round(0, 1)).toBe(0);
+        expect(value.round(0.1, 1)).toBe(0.1);
+        expect(value.round(0.1234, 1)).toBe(0.1);
+        expect(value.round(0, 2)).toBe(0);
+        expect(value.round(0.1, 2)).toBe(0.1);
+        expect(value.round(0.1234, 2)).toBe(0.12);
+        expect(value.round(0.1234, 10)).toBe(0.1234);
     });
   });
   describe('uuid()', () => {

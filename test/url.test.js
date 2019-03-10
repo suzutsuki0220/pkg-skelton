@@ -12,6 +12,7 @@ describe('url', () => {
       expect(url.getQueryInUrl("http://192.168.0.241:82/stocker/head.html")).toBe("");
       expect(url.getQueryInUrl("http://192.168.0.241:82/stocker/head.html?")).toBe("");
       expect(url.getQueryInUrl("http://192.168.0.241:82/stocker/head.html#")).toBe("");
+      expect(url.getQueryInUrl("http://192.168.0.241:82/stocker/head.html?#")).toBe("");
       expect(url.getQueryInUrl("http://192.168.0.241:82/stocker/head.html? ")).toBe(" ");
     });
     test('getRawParams', () => {
@@ -26,6 +27,7 @@ describe('url', () => {
       expect(url.getRawParams("http://192.168.0.241:82/stocker/head.html")).toEqual({});
       expect(url.getRawParams("http://192.168.0.241:82/stocker/head.html?")).toEqual({});
       expect(url.getRawParams("http://192.168.0.241:82/stocker/head.html#")).toEqual({});
+      expect(url.getRawParams("http://192.168.0.241:82/stocker/head.html?#")).toEqual({});
       expect(url.getRawParams("http://192.168.0.241:82/stocker/head.html&")).toEqual({});
     });
     test('getParams', () => {
@@ -40,6 +42,7 @@ describe('url', () => {
       expect(url.getParams("http://192.168.0.241:82/stocker/head.html")).toEqual({});
       expect(url.getParams("http://192.168.0.241:82/stocker/head.html?")).toEqual({});
       expect(url.getParams("http://192.168.0.241:82/stocker/head.html#")).toEqual({});
+      expect(url.getParams("http://192.168.0.241:82/stocker/head.html?#")).toEqual({});
       expect(url.getParams("http://192.168.0.241:82/stocker/head.html&")).toEqual({});
     });
   });
