@@ -1,4 +1,5 @@
 const value = require('./value');
+const self = this;
 
 const datetime_pattern = /(\d{4})[-\/](\d\d)[-\/](\d\d) (\d\d):(\d\d):([\d\.]+)/;
 
@@ -16,17 +17,17 @@ function getTimeStr(d, add_msec) {
     const sec   = d.getUTCSeconds();
     const msec  = add_msec ? d.getUTCMilliseconds() : NaN;
 
-    return this.getFormatTime(hour, min, sec, msec);
+    return self.getFormatTime(hour, min, sec, msec);
 }
 
-module.exports.getFormatTime = (hour, min, sec, milisec)
-    const h = value.zeroPadding(hour, 2);
-    const m = value.zeroPadding(min, 2);
-    const s = value.zeroPadding(sec, 2);
-    const msec  = isNaN(milisec) === false ? "." + value.zeroPadding(milisec, 3) : "";
+module.exports.getFormatTime = function(hour, min, sec, milisec) {
+    const h = value.zeroPadding(Math.floor(hour), 2);
+    const m = value.zeroPadding(Math.floor(min), 2);
+    const s = value.zeroPadding(Math.floor(sec), 2);
+    const msec  = isNaN(milisec) === false ? "." + value.zeroPadding(Math.floor(milisec), 3) : "";
 
-    return hour + ":" + min + ":" + sec + msec;
-}
+    return h + ":" + m + ":" + s + msec;
+};
 
 module.exports.isValidString = function(datetime_str) {
     return datetime_pattern.test(datetime_str);

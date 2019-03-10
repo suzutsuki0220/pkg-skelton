@@ -15,11 +15,10 @@ module.exports.getQueryInUrl = function(url) {
     if (!url) url = getWindowLocationHref();
     const delim_idx = url.indexOf('?');
 
-    return delim_idx >= 0 ? url.substring(delim_idx + 1) : "";
+    return delim_idx >= 0 ? splitSection(url.substring(delim_idx + 1)) : "";
 };
 
 module.exports.getRawParams = function(url) {
-    if (!url) url = getWindowLocationHref();
     var params = new Object();
 
     const arry = this.getQueryInUrl(url).split('&');
@@ -28,9 +27,9 @@ module.exports.getRawParams = function(url) {
 
         if (delim > 0) {
             const name  = arry[i].substring(0, delim);  // name
-            params[name] = splitSection(arry[i].substring(delim + 1)); // data
+            params[name] = arry[i].substring(delim + 1); // data
         } else if (delim < 0 && arry[i]) {
-            const name = splitSection(arry[i]);
+            const name = arry[i];
             params[name] = "";
         }
     }
