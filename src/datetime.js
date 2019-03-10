@@ -11,10 +11,19 @@ function getDateStr(d, delim) {
 }
 
 function getTimeStr(d, add_msec) {
-    const hour  = value.zeroPadding(d.getUTCHours(), 2);
-    const min   = value.zeroPadding(d.getUTCMinutes(), 2);
-    const sec   = value.zeroPadding(d.getUTCSeconds(), 2);
-    const msec  = add_msec ? "." + value.zeroPadding(d.getUTCMilliseconds(), 3) : "";
+    const hour  = d.getUTCHours();
+    const min   = d.getUTCMinutes();
+    const sec   = d.getUTCSeconds();
+    const msec  = add_msec ? d.getUTCMilliseconds() : NaN;
+
+    return this.getFormatTime(hour, min, sec, msec);
+}
+
+module.exports.getFormatTime = (hour, min, sec, milisec)
+    const h = value.zeroPadding(hour, 2);
+    const m = value.zeroPadding(min, 2);
+    const s = value.zeroPadding(sec, 2);
+    const msec  = isNaN(milisec) === false ? "." + value.zeroPadding(milisec, 3) : "";
 
     return hour + ":" + min + ":" + sec + msec;
 }
