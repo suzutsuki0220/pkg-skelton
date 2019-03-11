@@ -79,7 +79,7 @@ module.exports.getGcd = function(a, b) {
     }
 
     return a;
-}
+};
 
 // CSV等の区切り文字を ',' に統一する
 module.exports.replaceSeparator = function(string) {
