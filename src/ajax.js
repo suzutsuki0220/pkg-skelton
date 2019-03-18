@@ -38,7 +38,7 @@ function setHeaders() {
             httpRequest.setRequestHeader(i, request_headers[i]);
         }
     }
-};
+}
 
 exports.init = function() {
     this.close();

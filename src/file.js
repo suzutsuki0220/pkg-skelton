@@ -28,15 +28,15 @@ module.exports.dataScheme = function(mime, encoding) {
     // mime: image/png, text/plain ...
     // encoding: base64, charset=utf8 ...
     return 'data:' + mime + ';' + encoding + ',';
-}
+};
 
 module.exports.hasDataScheme = function(src_data) {
     return src_data.startsWith('data:');
-}
+};
 
 module.exports.addDataScheme = function(src_data, mime, encoding) {
     return this.hasDataScheme(src_data) === false ? this.dataScheme(mime, encoding) + src_data : src_data;
-}
+};
 
 module.exports.removeDataScheme = function(src_data) {
     if (this.hasDataScheme(src_data) === true) {
@@ -45,7 +45,7 @@ module.exports.removeDataScheme = function(src_data) {
     }
 
     return src_data;
-}
+};
 
 // available encoding
 //   utf8(default), ascii, utf16le, ucs2, base64, hex

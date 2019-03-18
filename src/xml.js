@@ -14,7 +14,7 @@ module.exports.getFirstFoundChildNode = function(xml, name) {
     const ret = this.getChildNodes(xml, name, true)
 
     return ret ? ret[0] : null;
-}
+};
 
 module.exports.getChildNodes = function(xml, name, single) {
     if (xml == null) {

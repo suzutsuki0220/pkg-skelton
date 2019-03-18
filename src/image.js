@@ -43,7 +43,7 @@ module.exports.getCenterXY = function(size) {
         x: Math.floor(size.width / 2),
         y: Math.floor(size.height / 2)
     };
-}
+};
 
 module.exports.getAreaSize = function(size) {
     if (this.isValidSize(size) === false) {
