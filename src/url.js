@@ -37,6 +37,17 @@ module.exports.getRawParams = function(url) {
     return params;
 };
 
+module.exports.makeQueryString = function(params) {
+    var query = "";
+    const keys = Object.keys(params);
+    for (var i=0; i<keys.length; i++) {
+        query += query.length !== 0 ? '&' : '';
+        query += encodeURIComponent(keys[i]) + '=' + encodeURIComponent(params[keys[i]]);
+    }
+
+    return query;
+};
+
 module.exports.getParams = function(url) {
     var params = this.getRawParams(url);
     for (var p in params) {

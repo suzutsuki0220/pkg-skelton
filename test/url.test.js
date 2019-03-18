@@ -30,6 +30,13 @@ describe('url', () => {
       expect(url.getRawParams("http://192.168.0.241:82/stocker/head.html?#")).toEqual({});
       expect(url.getRawParams("http://192.168.0.241:82/stocker/head.html&")).toEqual({});
     });
+    test('makeQueryString', () => {
+      expect(url.makeQueryString({})).toBe("");
+      expect(url.makeQueryString({a: '1'})).toBe("a=1");
+      expect(url.makeQueryString({a: '1', b: '2'})).toBe("a=1&b=2");
+      expect(url.makeQueryString({a: '*', b: '% ?'})).toBe("a=*&b=%25%20%3F");
+      expect(url.makeQueryString({a: '日本語'})).toBe("a=%E6%97%A5%E6%9C%AC%E8%AA%9E");
+    });
     test('getParams', () => {
       expect(url.getParams("http://192.168.0.241:82/stocker/head.html?dir=%E5%A4%89%E6%8F%9B&file=/MjAxOS0wMy0wMl8xMjUxMzY")).toEqual({dir:"変換", file:"/MjAxOS0wMy0wMl8xMjUxMzY"});
       expect(url.getParams("http://192.168.0.241:82/stocker/head.html?dir=%E5%A4%89%E6%8F%9B")).toEqual({dir:"変換"});
