@@ -11,22 +11,32 @@ function getDateStr(d, delim) {
     return year + delim + month + delim + date;
 }
 
-function getTimeStr(d, add_msec) {
-    const hour  = d.getUTCHours();
-    const min   = d.getUTCMinutes();
-    const sec   = d.getUTCSeconds();
-    const msec  = add_msec ? d.getUTCMilliseconds() : NaN;
-
-    return self.getFormatTime(hour, min, sec, msec);
-}
-
-module.exports.getFormatTime = function(hour, min, sec, milisec) {
+function hhmmss(hour, min, sec, delim) {
     const h = value.zeroPadding(Math.floor(hour), 2);
     const m = value.zeroPadding(Math.floor(min), 2);
     const s = value.zeroPadding(Math.floor(sec), 2);
-    const msec  = isNaN(milisec) === false ? "." + value.zeroPadding(Math.floor(milisec), 3) : "";
 
-    return h + ":" + m + ":" + s + msec;
+    return h + delim + m + delim + s;
+}
+
+function ms(msec) {
+    return "." + value.zeroPadding(Math.floor(msec), 3);
+}
+
+function getTimeStr(d, delim, add_msec) {
+    const hour  = d.getUTCHours();
+    const min   = d.getUTCMinutes();
+    const sec   = d.getUTCSeconds();
+
+    return add_msec ?
+        hhmmss(hour, min, sec, delim) + ms(d.getUTCMilliseconds()) :
+        hhmmss(hour, min, sec, delim);
+}
+
+module.exports.getFormatTime = function(hour, min, sec, milisec) {
+    const msec = isNaN(milisec) === false ? ms(milisec) : "";
+
+    return hhmmss(hour, min, sec, ":") + msec;
 };
 
 module.exports.isValidString = function(datetime_str) {
@@ -36,7 +46,7 @@ module.exports.isValidString = function(datetime_str) {
 module.exports.toUTCString = function(epoc) {
     const d = new Date(value.replaceNanToZero(epoc));
 
-    return getDateStr(d, "/") + " " + getTimeStr(d, true);
+    return getDateStr(d, "/") + " " + getTimeStr(d, ":", true);
 };
 
 module.exports.toString = function(epoc) {
@@ -45,10 +55,20 @@ module.exports.toString = function(epoc) {
     return this.toUTCString(epoc - tz_offset_msec);
 };
 
+module.exports.toPruneString = function(epoc, space) {
+    const tz_offset_msec = (new Date()).getTimezoneOffset() * 60 * 1000;
+    const d = new Date(value.replaceNanToZero(epoc - tz_offset_msec));
+    if (typeof space === 'undefined') {
+        space = "-";
+    }
+
+    return getDateStr(d, "") + space + getTimeStr(d, "", false);
+};
+
 module.exports.toRFC3339UTC = function(epoc) {
     const d = new Date(value.replaceNanToZero(epoc));
 
-    return getDateStr(d, "-") + "T" + getTimeStr(d, false) + "Z";
+    return getDateStr(d, "-") + "T" + getTimeStr(d, ":", false) + "Z";
 };
 
 module.exports.getDateFromDatetimeString = function(datetime_str) {

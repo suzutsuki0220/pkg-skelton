@@ -4,6 +4,20 @@ describe('datetime', () => {
     datetime = require('../config').require.jsUtils.datetime;
   })
 
+  describe('getFormatTime()', () => {
+    test('getFormatTime', () => {
+      expect(datetime.getFormatTime(0, 0, 0)).toBe("00:00:00");
+      expect(datetime.getFormatTime(0, 0, 1)).toBe("00:00:01");
+      expect(datetime.getFormatTime(0, 1, 0)).toBe("00:01:00");
+      expect(datetime.getFormatTime(1, 0, 0)).toBe("01:00:00");
+      expect(datetime.getFormatTime(0, 0, 0, 0)).toBe("00:00:00.000");
+      expect(datetime.getFormatTime(0, 0, 0, 1)).toBe("00:00:00.001");
+      expect(datetime.getFormatTime(0, 0, 1, 0)).toBe("00:00:01.000");
+      expect(datetime.getFormatTime(0, 1, 0, 0)).toBe("00:01:00.000");
+      expect(datetime.getFormatTime(1, 0, 0, 0)).toBe("01:00:00.000");
+    })
+  })
+
   describe('isValidString()', () => {
     test('isValidString', () => {
       expect(datetime.isValidString('')).toBe(false);
@@ -27,6 +41,14 @@ describe('datetime', () => {
     const tz_offset_msec = (new Date()).getTimezoneOffset() * 60 * 1000;
     test('toString', () => {
       expect(datetime.toString(tz_offset_msec)).toBe('1970/01/01 00:00:00.000');
+    })
+  })
+
+  describe('toPruneString()', () => {
+    const tz_offset_msec = (new Date()).getTimezoneOffset() * 60 * 1000;
+    test('toPruneString', () => {
+      expect(datetime.toPruneString(tz_offset_msec)).toBe('19700101-000000');
+      expect(datetime.toPruneString(tz_offset_msec, "_")).toBe('19700101_000000');
     })
   })
 
