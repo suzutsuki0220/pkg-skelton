@@ -29,8 +29,8 @@ describe('datetime', () => {
     })
     test('invalid case', () => {
       const invalid_patterns = patterns.invalid_datetime;
-      for (var i=0; i<invalid_patterns; i++) {
-        expect(datetime.isValidString(invalid_patterns[i])).toBe(true);
+      for (var i=0; i<invalid_patterns.length; i++) {
+        expect(datetime.isValidString(invalid_patterns[i])).toBe(false);
       }
     })
   })
@@ -78,6 +78,12 @@ describe('datetime', () => {
     test('check with valid datetime', () => {
       expect(datetime.getDateFromDatetimeString('1970/01/01 00:00:00')).toBe(0);
       expect(datetime.getDateFromDatetimeString('1970/01/01 00:00:00.000')).toBe(0);
+      expect(datetime.getDateFromDatetimeString('1970/1/01 00:00:00.000')).toBe(0);
+      expect(datetime.getDateFromDatetimeString('1970/01/1 00:00:00.000')).toBe(0);
+      expect(datetime.getDateFromDatetimeString('1970/01/01 0:0:0.000')).toBe(0);
+      expect(datetime.getDateFromDatetimeString('1970/1/1 0:0:1')).toBe(1000);
+      expect(datetime.getDateFromDatetimeString('1970/1/1 0:1:0')).toBe(60000);
+      expect(datetime.getDateFromDatetimeString('1970/1/1 1:0:0')).toBe(3600000);
     })
   })
 
