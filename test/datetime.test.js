@@ -1,6 +1,8 @@
 describe('datetime', () => {
   let datetime;
+  let patterns;
   beforeEach(() => {
+    patterns = require('./testdata/datetime.patterns.js');
     datetime = require('../config').require.jsUtils.datetime;
   })
 
@@ -19,12 +21,17 @@ describe('datetime', () => {
   })
 
   describe('isValidString()', () => {
-    test('isValidString', () => {
-      expect(datetime.isValidString('')).toBe(false);
-      expect(datetime.isValidString('2018-11-11 12:34:56.123')).toBe(true);
-//      expect(datetime.isValidString('2018-11-11 24:60:60.123')).toBe(false);
-//      expect(datetime.isValidString('2018-13-11 12:34:56.123')).toBe(false);
-//      expect(datetime.isValidString('2018-11-32 12:34:56.123')).toBe(false);
+    test('valid case', () => {
+      const valid_patterns = patterns.valid_datetime;
+      for (var i=0; i<valid_patterns.length; i++) {
+        expect(datetime.isValidString(valid_patterns[i])).toBe(true);
+      }
+    })
+    test('invalid case', () => {
+      const invalid_patterns = patterns.invalid_datetime;
+      for (var i=0; i<invalid_patterns; i++) {
+        expect(datetime.isValidString(invalid_patterns[i])).toBe(true);
+      }
     })
   })
 
@@ -62,14 +69,13 @@ describe('datetime', () => {
   })
 
   describe('getDateFromDatetimeString()', () => {
-    test('getDateFromDatetimeString', () => {
-      expect(datetime.getDateFromDatetimeString()).toBe(NaN);
-      expect(datetime.getDateFromDatetimeString('')).toBe(NaN);
-      expect(datetime.getDateFromDatetimeString('1999/01/01')).toBe(NaN);
-      expect(datetime.getDateFromDatetimeString('00:00:00.000')).toBe(NaN);
-      expect(datetime.getDateFromDatetimeString('99/01/01 00:00:00.000')).toBe(NaN);
-      expect(datetime.getDateFromDatetimeString('1999/1/1 00:00:00.000')).toBe(NaN);
-      expect(datetime.getDateFromDatetimeString('1999/01/01 0:0:0.000')).toBe(NaN);
+    test('check with invalid datetime', () => {
+      const invalid_patterns = patterns.invalid_datetime;
+      for (var i=0; i<invalid_patterns.length; i++) {
+        expect(datetime.getDateFromDatetimeString(invalid_patterns[i])).toBe(NaN);
+      }
+    })
+    test('check with valid datetime', () => {
       expect(datetime.getDateFromDatetimeString('1970/01/01 00:00:00')).toBe(0);
       expect(datetime.getDateFromDatetimeString('1970/01/01 00:00:00.000')).toBe(0);
     })
