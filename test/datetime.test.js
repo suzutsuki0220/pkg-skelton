@@ -56,6 +56,7 @@ describe('datetime', () => {
     test('toPruneString', () => {
       expect(datetime.toPruneString(tz_offset_msec)).toBe('19700101-000000');
       expect(datetime.toPruneString(tz_offset_msec, "_")).toBe('19700101_000000');
+      expect(datetime.toPruneString(tz_offset_msec, "")).toBe('19700101000000');
     })
   })
 

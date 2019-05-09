@@ -55,12 +55,9 @@ module.exports.toString = function(epoc) {
     return this.toUTCString(epoc - tz_offset_msec);
 };
 
-module.exports.toPruneString = function(epoc, space) {
+module.exports.toPruneString = function(epoc, space = "-") {
     const tz_offset_msec = (new Date()).getTimezoneOffset() * 60 * 1000;
     const d = new Date(value.replaceNanToZero(epoc - tz_offset_msec));
-    if (typeof space === 'undefined') {
-        space = "-";
-    }
 
     return getDateStr(d, "") + space + getTimeStr(d, "", false);
 };
