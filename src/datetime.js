@@ -1,7 +1,7 @@
 const value = require('./value');
 const self = this;
 
-const datetime_pattern = /(\d{4})[-\/\.](\d\d)[-\/\.](\d\d) (\d\d):(\d\d):([\d\.]+)/;
+const datetime_pattern = /([12]\d{3})[-\/\.]([01]?\d)[-\/\.]([0123]?\d) ([012]?\d):([0-5]?\d):([\d\.]+)/;
 
 function getDateStr(d, delim) {
     const year  = value.zeroPadding(d.getUTCFullYear(), 4);
