@@ -17,4 +17,35 @@ describe('character', () => {
       expect(character.escapeControlChar(160)).toBe(' ');
     });
   });
+  describe('normalizeHyphen()', () => {
+    test('replace hyphen check', () => {
+      expect(character.normalizeHyphen('-‐—–−‒─―ｰ━')).toBe('----------');
+    });
+  });
+  describe('toHalfWidthLetter()', () => {
+    test('fullwidth to halfwidth check', () => {
+      expect(character.toHalfWidthLetter('0')).toBe('0');
+      expect(character.toHalfWidthLetter('￥')).toBe('￥');
+      expect(character.toHalfWidthLetter('０')).toBe('0');
+      expect(character.toHalfWidthLetter('　')).toBe(' ');
+      expect(character.toHalfWidthLetter('ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｒｖｗｘｙｚ')).toBe('abcdefghijklmnopqrstrvwxyz');
+      expect(character.toHalfWidthLetter('０１２３４５６７８９')).toBe('0123456789');
+      expect(character.toHalfWidthLetter('！＠＃＄％＾＆＾＊（）＿－＝')).toBe('!@#$%^&^*()_-=');
+      expect(character.toHalfWidthLetter('［＼］｀')).toBe('[\\]`');
+      expect(character.toHalfWidthLetter('｛｜｝～')).toBe('{|}~');
+    });
+  });
+  describe('toFullWidthLetter()', () => {
+    test('halfwidth to fullwidth check', () => {
+      expect(character.toFullWidthLetter('０')).toBe('０');
+      expect(character.toFullWidthLetter('￥')).toBe('￥');
+      expect(character.toFullWidthLetter('0')).toBe('０');
+      expect(character.toFullWidthLetter(' ')).toBe('　');
+      expect(character.toFullWidthLetter('abcdefghijklmnopqrstrvwxyz')).toBe('ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｒｖｗｘｙｚ');
+      expect(character.toFullWidthLetter('0123456789')).toBe('０１２３４５６７８９');
+      expect(character.toFullWidthLetter('!@#$%^&^*()_-=')).toBe('！＠＃＄％＾＆＾＊（）＿－＝');
+      expect(character.toFullWidthLetter('[\\]`')).toBe('［＼］｀');
+      expect(character.toFullWidthLetter('{|}~')).toBe('｛｜｝～');
+    });
+  });
 });
