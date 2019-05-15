@@ -35,5 +35,16 @@ module.exports.toFullWidthLetter = function(string) {
 };
 
 module.exports.toFullWidthKatakana = function(string) {
+    const kanaStartCode = 0xFF61;
+    const kanamap = [
+        '。','「','」','、','・','ヲ','ァ','ィ','ゥ','ェ','ォ','ャ','ュ','ョ','ッ','ー', // ｡｢｣､･ｦｧｨｩｪｫｬｭｮｯｰ
+        'ア','イ','ウ','エ','オ','カ','キ','ク','ケ','コ','サ','シ','ス','セ','ソ', // ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿ
+        'タ','チ','ツ','テ','ト','ナ','ニ','ヌ','ネ','ノ','ハ','ヒ','フ','ヘ','ホ', // ﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎ
+        'マ','ミ','ム','メ','モ','ヤ','ユ','ヨ',      // ﾏﾐﾑﾒﾓﾔﾕﾖ
+        'ラ','リ','ル','レ','ロ','ワ','ン','゛','゜'  // ﾗﾘﾙﾚﾛﾜﾝﾞﾟ
+    ];
 
+    return string.replace(re_half_katakana, function(s) {
+        return kanamap[s.charCodeAt(0) - kanaStartCode];
+    });
 };

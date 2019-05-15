@@ -48,4 +48,16 @@ describe('character', () => {
       expect(character.toFullWidthLetter('{|}~')).toBe('｛｜｝～');
     });
   });
+  describe('toFullWidthKatakana()', () => {
+    test('hankaku kana to fullwidth check', () => {
+      expect(character.toFullWidthKatakana('ｱ')).toBe('ア');
+      expect(character.toFullWidthKatakana('ｧｨｩｪｫ')).toBe('ァィゥェォ');
+      expect(character.toFullWidthKatakana('ｯｬｭｮ')).toBe('ッャュョ');
+      expect(character.toFullWidthKatakana('｡､ｰ｢｣･')).toBe('。、ー「」・');
+      expect(character.toFullWidthKatakana('ｱｶｻﾀﾅﾊﾏﾔﾗﾜｦﾝ')).toBe('アカサタナハマヤラワヲン');
+    });
+    test('not hankaku kana check', () => {
+      expect(character.toFullWidthKatakana('0123456789')).toBe('0123456789');
+    });
+  });
 });
