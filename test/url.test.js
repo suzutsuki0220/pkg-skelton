@@ -33,6 +33,8 @@ describe('url', () => {
     test('makeQueryString', () => {
       expect(url.makeQueryString({})).toBe("");
       expect(url.makeQueryString({a: '1'})).toBe("a=1");
+      expect(url.makeQueryString({a: ['1', '2']})).toBe("a=1&a=2");
+      expect(url.makeQueryString({a: ['1', '2', '3']})).toBe("a=1&a=2&a=3");
       expect(url.makeQueryString({a: '1', b: '2'})).toBe("a=1&b=2");
       expect(url.makeQueryString({a: '*', b: '% ?'})).toBe("a=*&b=%25%20%3F");
       expect(url.makeQueryString({a: '日本語'})).toBe("a=%E6%97%A5%E6%9C%AC%E8%AA%9E");
@@ -51,6 +53,7 @@ describe('url', () => {
       expect(url.getParams("http://192.168.0.241:82/stocker/head.html#")).toEqual({});
       expect(url.getParams("http://192.168.0.241:82/stocker/head.html?#")).toEqual({});
       expect(url.getParams("http://192.168.0.241:82/stocker/head.html&")).toEqual({});
+      expect(url.getParams("http://localhost/stocker/head.html?dir=dir1&dir=dir2&file=file1&file=&file=file2")).toEqual({dir:["dir1", "dir2"], file: ["file1", "", "file2"]});
     });
   });
 
