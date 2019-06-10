@@ -66,6 +66,7 @@ describe('datetime', () => {
       expect(datetime.toRFC3339UTC(NaN)).toBe('1970-01-01T00:00:00Z');
       expect(datetime.toRFC3339UTC(0)).toBe('1970-01-01T00:00:00Z');
       expect(datetime.toRFC3339UTC(1000)).toBe('1970-01-01T00:00:01Z');
+      expect(datetime.toRFC3339UTC(1541980182000)).toBe('2018-11-11T23:49:42Z');
     })
   })
 
@@ -82,6 +83,8 @@ describe('datetime', () => {
       expect(datetime.getDateFromDatetimeString('1970/1/01 00:00:00.000')).toBe(0);
       expect(datetime.getDateFromDatetimeString('1970/01/1 00:00:00.000')).toBe(0);
       expect(datetime.getDateFromDatetimeString('1970/01/01 0:0:0.000')).toBe(0);
+      expect(datetime.getDateFromDatetimeString('1970-1-1T00:00:01Z')).toBe(1000);
+      expect(datetime.getDateFromDatetimeString('2018-11-11T23:49:42.000Z ')).toBe(1541980182000);
       expect(datetime.getDateFromDatetimeString('1970/1/1 0:0:1')).toBe(1000);
       expect(datetime.getDateFromDatetimeString('1970/1/1 0:1:0')).toBe(60000);
       expect(datetime.getDateFromDatetimeString('1970/1/1 1:0:0')).toBe(3600000);
