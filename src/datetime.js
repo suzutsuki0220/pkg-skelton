@@ -1,7 +1,8 @@
 const value = require('./value');
 const self = this;
 
-const datetime_pattern = /([12]\d{3})[\-\/\.]([01]?\d)[\-\/\.]([0123]?\d)[ T]([012]?\d):([0-5]?\d):([\d\.]+)(([Z\+\-][012]\d:[0-5]\d)?)/;
+const datetime_pattern = /((?:[12]\d{3})|(?:\d{2}))[\-\/\.]([01]?\d)[\-\/\.]([0123]?\d)[ _\-T]([012]?\d):([0-5]?\d):([\d\.]+)((?:Z|(?:\+|\-[012]\d:[0-5]\d))?)/;
+const prune_datetime_pattern = /((?:[12]\d{3})|(?:\d{2}))([01]?\d)([0123]?\d)[ _\-]([012]?\d)([0-5]?\d)([0-5]?[\d])/;
 
 function getDateStr(d, delim) {
     const year  = value.zeroPadding(d.getUTCFullYear(), 4);
@@ -75,7 +76,8 @@ module.exports.getDateFromDatetimeString = function(datetime_str) {
         return NaN;
     }
 
-    var dt_match = datetime_str.match(datetime_pattern);
+debugger;
+    var dt_match = datetime_str.match(datetime_pattern) || datetime_str.match(prune_datetime_pattern);
     if (dt_match === null) {
         return NaN;
     }

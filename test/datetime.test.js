@@ -85,6 +85,9 @@ describe('datetime', () => {
       expect(datetime.getDateFromDatetimeString('1970/01/01 0:0:0.000')).toBe(0);
       expect(datetime.getDateFromDatetimeString('1970-1-1T00:00:01Z')).toBe(1000);
       expect(datetime.getDateFromDatetimeString('2018-11-11T23:49:42.000Z ')).toBe(1541980182000);
+//      expect(datetime.getDateFromDatetimeString('2019-02-25_225849')).toBe(1551135529000);  // not implement
+      expect(datetime.getDateFromDatetimeString('/20190607-091240_aaa/xxx.txt')).toBe(1559898760000);
+      expect(datetime.getDateFromDatetimeString('P_20190507_120733_vHDR_Auto.jpg')).toBe(1557230853000);
       expect(datetime.getDateFromDatetimeString('1970/1/1 0:0:1')).toBe(1000);
       expect(datetime.getDateFromDatetimeString('1970/1/1 0:1:0')).toBe(60000);
       expect(datetime.getDateFromDatetimeString('1970/1/1 1:0:0')).toBe(3600000);
