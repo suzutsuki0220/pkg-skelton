@@ -9,20 +9,22 @@
     "test:coverage": "jest --coverage",
     "test:cc-report": "run-s test:coverage test:get-reporter test:upload-report",
     "test:get-reporter": "if [ ! -x ./cc-test-reporter ]; then curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter && chmod +x ./cc-test-reporter; fi",
-    "test:upload-report": "CC_TEST_REPORTER_ID=77c63b9255e266fffca0db0ebeb9d71ba089d0f9c28db73e8e3071ec3f8e8574 GIT_COMMIT=$(git log | grep -m1 -oE '[^ ]+$') ./cc-test-reporter after-build -t lcov --exit-code $?"
+    "test:upload-report": "CC_TEST_REPORTER_ID=77c63b9255e266fffca0db0ebeb9d71ba089d0f9c28db73e8e3071ec3f8e8574 GIT_COMMIT=$(git log | grep -m1 -oE '[^ ]+$') ./cc-test-reporter after-build -t lcov --exit-code $?",
+    "get-update": "npm-check-updates -u && npm update"
   },
   "repository": {
     "type": "git",
     "url": "git@github.com:suzutsuki0220/jsUtils.git"
   },
   "dependencies": {
-    "canvas": "^2.4.0",
+    "canvas": "^2.5.0",
     "npm": "^6.9.0",
     "xmldom": "^0.1.27",
     "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
-    "jest": "^23.6.0",
+    "jest": "^24.8.0",
+    "npm-check-updates": "^3.1.10",
     "npm-run-all": "^4.1.5"
   },
   "jest": {
