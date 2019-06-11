@@ -76,7 +76,6 @@ module.exports.getDateFromDatetimeString = function(datetime_str) {
         return NaN;
     }
 
-debugger;
     var dt_match = datetime_str.match(datetime_pattern) || datetime_str.match(prune_datetime_pattern);
     if (dt_match === null) {
         return NaN;
