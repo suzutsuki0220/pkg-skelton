@@ -90,3 +90,13 @@ module.exports.getParams = function(url) {
 
     return params;
 };
+
+module.exports.getArrayValue = function(params, key) {
+    const value = params[key];
+
+    if (!value) {
+        return [];
+    }
+
+    return Array.isArray(value) ? value : [value];
+};

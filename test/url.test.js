@@ -55,6 +55,14 @@ describe('url', () => {
       expect(url.getParams("http://192.168.0.241:82/stocker/head.html&")).toEqual({});
       expect(url.getParams("http://localhost/stocker/head.html?dir=dir1&dir=dir2&file=file1&file=&file=file2")).toEqual({dir:["dir1", "dir2"], file: ["file1", "", "file2"]});
     });
+    test('getArrayValue', () => {
+      expect(url.getArrayValue({}, '')).toEqual([]);
+      expect(url.getArrayValue({}, 'key')).toEqual([]);
+      expect(url.getArrayValue({key: 'string'}, '')).toEqual([]);
+      expect(url.getArrayValue({key: 'string'}, 'notfound')).toEqual([]);
+      expect(url.getArrayValue({key: 'string'}, 'key')).toEqual(['string']);
+      expect(url.getArrayValue({key: ['string1', 'string2']}, 'key')).toEqual(['string1', 'string2']);
+    });
   });
 
 });
