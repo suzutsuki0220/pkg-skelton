@@ -85,6 +85,10 @@ describe('datetime', () => {
       expect(datetime.getDateFromDatetimeString('1970/01/01 0:0:0.000')).toBe(0);
       expect(datetime.getDateFromDatetimeString('1970-1-1T00:00:01Z')).toBe(1000);
       expect(datetime.getDateFromDatetimeString('2018-11-11T23:49:42.000Z ')).toBe(1541980182000);
+      expect(datetime.getDateFromDatetimeString('2038-01-19T03:14:07')).toBe(2147483647000);
+      expect(datetime.getDateFromDatetimeString('1973-03-03T09:46:40')).toBe(100000000000);
+      expect(datetime.getDateFromDatetimeString('2001-09-09T01:46:40')).toBe(1000000000000);
+      expect(datetime.getDateFromDatetimeString('2009-02-13T23:31:30')).toBe(1234567890000);
 //      expect(datetime.getDateFromDatetimeString('2019-02-25_225849')).toBe(1551135529000);  // not implement
       expect(datetime.getDateFromDatetimeString('/20190607-091240_aaa/xxx.txt')).toBe(1559898760000);
       expect(datetime.getDateFromDatetimeString('P_20190507_120733_vHDR_Auto.jpg')).toBe(1557230853000);
@@ -132,6 +136,7 @@ describe('datetime', () => {
       expect(datetime.getEpoch(NaN)).toBe(NaN);
       expect(datetime.getEpoch('1970/01/01 00:00:01')).toBe(1);
       expect(datetime.getEpoch('1970/01/01 00:00:01.234')).toBe(1.234);
+      expect(datetime.getEpoch('2009-02-13T23:31:30')).toBe(1234567890);
     });
   });
 })
