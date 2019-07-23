@@ -124,4 +124,14 @@ describe('datetime', () => {
       expect(datetime.isMatchInSeconds(0, 1000)).toBe(false);
     })
   })
+
+  describe('getEpoch()', () => {
+    test('getEpoch', () => {
+      expect(datetime.getEpoch(1234)).toBe(1234);
+      expect(datetime.getEpoch(1234567890123)).toBe(1234567890.123);
+      expect(datetime.getEpoch(NaN)).toBe(NaN);
+      expect(datetime.getEpoch('1970/01/01 00:00:01')).toBe(1);
+      expect(datetime.getEpoch('1970/01/01 00:00:01.234')).toBe(1.234);
+    });
+  });
 })

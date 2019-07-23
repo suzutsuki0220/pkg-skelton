@@ -1,5 +1,4 @@
 const value = require('./value');
-const self = this;
 
 const datetime_pattern = /((?:[12]\d{3})|(?:\d{2}))[\-\/\.]([01]?\d)[\-\/\.]([0123]?\d)[ _\-T]([012]?\d):([0-5]?\d):([\d\.]+)((?:Z|(?:\+|\-[012]\d:[0-5]\d))?)/;
 const prune_datetime_pattern = /((?:[12]\d{3})|(?:\d{2}))([01]?\d)([0123]?\d)[ _\-]([012]?\d)([0-5]?\d)([0-5]?[\d])/;
@@ -32,6 +31,11 @@ function getTimeStr(d, delim, add_msec) {
     return add_msec ?
         hhmmss(hour, min, sec, delim) + ms(d.getUTCMilliseconds()) :
         hhmmss(hour, min, sec, delim);
+}
+
+function getEpochSecondPrecision(epoc) {
+    // 32Bit整数より大きければミリ秒精度とみなして桁を落とす
+    return (epoc > 4294967295) ? (epoc / 1000) : epoc;
 }
 
 module.exports.getFormatTime = function(hour, min, sec, milisec) {
@@ -106,4 +110,17 @@ module.exports.isMatchInSeconds = function(epoc1, epoc2) {
     }
 
     return dt1 === dt2 ? true : false;
+};
+
+// Epoch時刻を求める。秒以下は小数で表す。秒単位にするにはMath.floor()で丸めて下さい
+module.exports.getEpoch = function(datetime) {
+    var ret = NaN;
+
+    if (typeof datetime === "number") {
+        ret = getEpochSecondPrecision(datetime);
+    } else if (typeof datetime === "string") {
+        ret = this.getDateFromDatetimeString(datetime) / 1000;
+    }
+
+    return ret;
 };
