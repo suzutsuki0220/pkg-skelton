@@ -38,6 +38,12 @@ function getEpochSecondPrecision(epoc) {
     return (epoc > 4294967295) ? (epoc / 1000) : epoc;
 }
 
+function getEpochMilliPrecision(epoc) {
+    // 32Bit整数に収まっていれば秒精度とみなして桁を増やす
+    // 100000000 は '1973/03/03 18:46:40 JST' これより小さい値は実際あまり使われないだろうから変換を除外する
+    return (100000000 < epoc && epoc <= 4294967295) ? (epoc * 1000) : epoc;
+}
+
 module.exports.getFormatTime = function(hour, min, sec, milisec) {
     const msec = isNaN(milisec) === false ? ms(milisec) : "";
 
