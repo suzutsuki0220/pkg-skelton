@@ -54,16 +54,16 @@ module.exports.isValidString = function(datetime_str) {
     return datetime_pattern.test(datetime_str);
 };
 
-module.exports.toUTCString = function(epoc) {
+module.exports.toUTCString = function(epoc, add_msec = true) {
     const d = new Date(value.replaceNanToZero(epoc));
 
-    return getDateStr(d, "/") + " " + getTimeStr(d, ":", true);
+    return getDateStr(d, "/") + " " + getTimeStr(d, ":", add_msec);
 };
 
-module.exports.toString = function(epoc) {
+module.exports.toString = function(epoc, add_msec = true) {
     const tz_offset_msec = (new Date()).getTimezoneOffset() * 60 * 1000;
 
-    return this.toUTCString(epoc - tz_offset_msec);
+    return this.toUTCString(epoc - tz_offset_msec , add_msec);
 };
 
 module.exports.toPruneString = function(epoc, space = "-") {
