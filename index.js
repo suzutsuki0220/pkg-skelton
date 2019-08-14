@@ -1,3 +1,4 @@
+module.exports.angle     = require('./src/angle');
 module.exports.bit       = require('./src/bit');
 module.exports.character = require('./src/character');
 module.exports.datetime  = require('./src/datetime');
