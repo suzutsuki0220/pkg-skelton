@@ -14,6 +14,15 @@ function makeImage() {
     return new i();
 }
 
+function load(base64image, onloadFunc) {
+    const image = makeImage();
+    image.crossOrigin = "Anonymous";
+    image.onload = function(e) {
+        onloadFunc(image, e)
+    };
+    image.src = base64image;
+}
+
 module.exports.isValidSize = function(size) {
     if (size && isNaN(size.width) === false && isNaN(size.height) === false) {
         if (size.width > 0 && size.height > 0) {
@@ -108,26 +117,38 @@ module.exports.getScaledSize = function(src_size, scale) {
 };
 
 module.exports.getSize = function(base64image, callback) {
-    const image = makeImage();
-    image.crossOrigin = "Anonymous";
-    image.onload = function(event) {
+    load(base64image, function(image, event) {
         callback({width: image.width, height: image.height});
-    };
-    image.src = base64image;
+    });
 };
 
-module.exports.resize = function(base64image, target_dimension, callback, mime_type) {
+module.exports.resize = function(base64image, target_dimension, callback, mime_type = "image/png") {
     const self = this;
 
-    const image = makeImage();
-    image.crossOrigin = "Anonymous";
-    image.onload = function(event) {
+    load(base64image, function(image, event) {
         const scale = self.getScale(image, target_dimension);
-        const dst_size = self.getScaledSize(image, scale);
-        const canvas = makeCanvas(dst_size);
+        const dstSize = self.getScaledSize(image, scale);
+        const canvas = makeCanvas(dstSize);
         var ctx = canvas.getContext('2d');
-        ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, dst_size.width, dst_size.height);
+        ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, dstSize.width, dstSize.height);
         callback(canvas.toDataURL(mime_type));
-    };
-    image.src = base64image;
+    });
+};
+
+module.exports.rotate = function(base64image, angleRadian, callback, mime_type = "image/png") {
+    const self = this;
+
+    load(base64image, function(image, event) {
+        const dstSize = {
+            width: Math.round(image.height * Math.abs(Math.sin(angleRadian)) + image.width * Math.abs(Math.cos(angleRadian))),
+            height: Math.round(image.height * Math.abs(Math.cos(angleRadian)) + image.width * Math.abs(Math.sin(angleRadian)))
+        };
+        const center = self.getCenterXY(dstSize);
+        const canvas = makeCanvas(dstSize);
+        var ctx = canvas.getContext('2d');
+        ctx.translate(center.x, center.y);
+        ctx.rotate(angleRadian);
+        ctx.drawImage(image, -(image.width / 2), -(image.height / 2));
+        callback(canvas.toDataURL(mime_type));
+    });
 };
