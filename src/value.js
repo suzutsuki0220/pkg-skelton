@@ -58,6 +58,9 @@ module.exports.setMinMax = function(value, obj) {
     obj.max = this.getMax(value, obj.max);
 };
 
+// Math.min() / Math.max() では NaN の値が含まれると NaN になるが、
+// この処理では NaN は無視して算出されるのが異なる
+// 大小比較で value が NaN の時は常に false となる
 module.exports.getMin = function(value, min) {
     return isNaN(min) ? value : (min > value ? value : min);
 };
