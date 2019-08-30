@@ -10,7 +10,7 @@ function makeCanvas(size) {
 }
 
 function makeImage() {
-    const i = (typeof document === 'undefined') ? require('canvas').Image : document.Image;
+    const i = (typeof Image === 'undefined') ? require('canvas').Image : Image;
     return new i();
 }
 
