@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const jsUtils = require('./index.js');
 
 const file = jsUtils.file;
@@ -52,7 +54,7 @@ function usage() {
 
 if (process.argv.length < 3) {
     usage();
-    return 1;
+    process.exit(1);
 }
 
 const base64 = file.addDataScheme(file.FileToBase64(source_image), 'image/png', 'base64');
@@ -63,7 +65,7 @@ image.getSize(base64, function(size) {
 const select_size = target_size[resize_set];
 if (!select_size) {
     usage();
-    return 2;
+    process.exit(2);
 }
 
 const keys = Object.keys(select_size);
