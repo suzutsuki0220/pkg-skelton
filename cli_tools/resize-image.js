@@ -39,6 +39,12 @@ const target_size = {
 const source_image = process.argv[2];
 const resize_set = process.argv[3];
 
+function doImageResize(base64, size, filename) {
+    image.resize(base64, size, function(data) {
+        file.Base64ToFile(data, filename);
+    });
+}
+
 function usage() {
     console.log("Usage:");
     console.log("    " + process.argv[1] + " source_image target");
@@ -62,15 +68,17 @@ image.getSize(base64, function(size) {
     console.log(size);
 });
 
-const select_size = target_size[resize_set];
+const select_size = target_size[resize_set] || parseInt(resize_set);
 if (!select_size) {
     usage();
     process.exit(2);
 }
 
-const keys = Object.keys(select_size);
-for (var i=0; i<keys.length; i++) {
-    image.resize(base64, keys[i], function(data) {
-        file.Base64ToFile(data, select_size[keys[i]] + ".png");
-    });
+if (typeof select_size === 'number') {
+    doImageResize(base64, select_size, source_image + "_" + select_size + ".png");
+} else {
+    const keys = Object.keys(select_size);
+    for (var i=0; i<keys.length; i++) {
+        doImageResize(base64, keys[i], select_size[keys[i]] + ".png");
+    }
 }
