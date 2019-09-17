@@ -9,7 +9,7 @@ function create_tag() {
 
 if [ "$version" != "" ]; then
     create_tag $version
-    exit 0
+    exit 1
 fi
 
-exit 1
+exit 0
