@@ -18,18 +18,9 @@ function is_exist_tag() {
     echo "false"
 }
 
-function is_master() {
-    git branch --list |grep "\* master" 2>&1 > /dev/null
-    if [ $? -eq 0 ]; then
-        echo "true"
-    else
-        echo "false"
-    fi
-}
-
 if [ "$version" != "" ]; then
     new_tag="v${version}"
-    if [ `is_master` == "true" -a `is_exist_tag ${new_tag}` == "false" ]; then
+    if [ `is_exist_tag ${new_tag}` == "false" ]; then
         create_tag ${new_tag}
         exit 1
     fi
