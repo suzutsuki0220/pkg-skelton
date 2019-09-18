@@ -3,8 +3,8 @@
 version=`git diff HEAD^..HEAD -- "$(git rev-parse --show-toplevel)"/package.json | grep '^\+.*version' | sed -s 's/[^0-9\.]//g'`
 
 function create_tag() {
-    git tag -a "v$1" -m "`git log -1 --format=%s`"
-    echo "Created a new tag, v$1"
+    git tag -a "$1" -m "`git log -1 --format=%s`"
+    echo "Created a new tag, $1"
 }
 
 function is_exist_tag() {
@@ -18,9 +18,21 @@ function is_exist_tag() {
     echo "false"
 }
 
-if [ "$version" != "" -a `is_exist_tag ${version}` == "false" ]; then
-    create_tag $version
-    exit 1
+function is_master() {
+    git branch --list |grep "\* master" 2>&1 > /dev/null
+    if [ $? eq 0 ]; then
+        echo "true"
+    else
+        echo "false"
+    fi
+}
+
+if [ "$version" != "" ]; then
+    local new_tag="v${version}"
+    if [ `is_master` == "true" -a `is_exist_tag ${new_tag}` == "false" ]; then
+        create_tag ${new_tag}
+        exit 1
+    fi
 fi
 
 exit 0
