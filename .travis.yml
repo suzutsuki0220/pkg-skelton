@@ -4,6 +4,8 @@ language: node_js
 node_js:
   - "lts/*"
   - "node"
+script:
+  - npm run test:cc-report
 env:
   global:
     # if modify the secure, see ticket #448
@@ -11,9 +13,6 @@ env:
 
 jobs:
   include:
-    - stage: test
-      script:
-        - npm run test:cc-report
     - stage: release
       node_js: "node"
       script:
