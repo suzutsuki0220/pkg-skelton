@@ -7,7 +7,18 @@ function create_tag() {
     echo "Created a new tag, v$1"
 }
 
-if [ "$version" != "" ]; then
+function is_exist_tag() {
+    for t in `git tag -l` ;do
+        if [ "$t" == "$1" ]; then
+            echo "true"
+            return
+        fi
+    done
+
+    echo "false"
+}
+
+if [ "$version" != "" -a `is_exist_tag ${version}` == "false" ]; then
     create_tag $version
     exit 1
 fi
