@@ -75,7 +75,7 @@ module.exports.makeQueryString = function(params) {
 module.exports.getParams = function(url) {
     var params = this.getRawParams(url);
     for (var p in params) {
-        if (params.hasOwnProperty(p)) {
+        if (Object.prototype.hasOwnProperty.call(params, p)) {
             if (Array.isArray(params[p])) {
                 var decoded = new Array();
                 for (var j=0; j<params[p].length; j++) {

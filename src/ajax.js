@@ -34,7 +34,7 @@ function stateChangedWork() {
 
 function setHeaders() {
     for (var i in request_headers) {
-        if (request_headers.hasOwnProperty(i)) {
+        if (Object.prototype.hasOwnProperty.call(request_headers, i)) {
             httpRequest.setRequestHeader(i, request_headers[i]);
         }
     }
