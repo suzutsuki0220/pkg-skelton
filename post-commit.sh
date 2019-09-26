@@ -3,7 +3,7 @@
 version=`git diff HEAD^..HEAD -- "$(git rev-parse --show-toplevel)"/package.json | grep '^\+.*version' | sed -s 's/[^0-9\.]//g'`
 
 function create_tag() {
-    git tag -a "$1" -m "`git log -1 --force --format=%s`"
+    git tag -a "$1" -m "`git log -1 --format=%s`" --force
     echo "Created a new tag, $1"
 }
 
@@ -17,6 +17,8 @@ function is_exist_tag() {
 
     echo "false"
 }
+
+#####
 
 if [ "$version" != "" ]; then
     new_tag="v${version}"
