@@ -1,7 +1,8 @@
-{
+module.exports = {
     "env": {
         "browser": true,
         "es6": true,
+        "jest/globals": true,
         "node": true
     },
     "extends": "eslint:recommended",
@@ -13,6 +14,9 @@
         "ecmaVersion": 2018,
         "sourceType": "module"
     },
+    "plugins": [
+        "jest"
+    ],
     "rules": {
     }
-}
+};
