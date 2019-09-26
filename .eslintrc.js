@@ -18,5 +18,6 @@ module.exports = {
         "jest"
     ],
     "rules": {
+        "no-irregular-whitespace": ["error", {"skipRegExps": true}]
     }
 };
