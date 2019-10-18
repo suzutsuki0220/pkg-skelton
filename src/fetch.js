@@ -13,18 +13,18 @@ function uriComponent(body) {
 function composeBody(request) {
     if (!request.method || request.method === "GET") {
         return {
-            uri: request.uri + uriComponent(request.body);
-            body: null;
+            uri: request.uri + uriComponent(request.body),
+            body: null
         };
     } else {
         return {
-            uri: request.uri;
-            body: request.body:
+            uri: request.uri,
+            body: request.body
         };
     }
 }
 
-modules.exports.request = function(uri, request, onSuccess, onError) {
+module.exports.request = function(uri, request, onSuccess, onError) {
     const compose = composeBody(request);
 
     const f = fetchResource();
@@ -33,7 +33,7 @@ modules.exports.request = function(uri, request, onSuccess, onError) {
         credentials: 'same-origin',
         headers: request.headers || [],
         body: compose.body
-    }).then(reqponse => {
+    }).then(response => {
         if (response.ok) {
             return (request.format === "json") ? response.json() : response.text();
         } else {
