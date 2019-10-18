@@ -3,6 +3,7 @@ module.exports.angle     = require('./src/angle.js');
 module.exports.bit       = require('./src/bit.js');
 module.exports.character = require('./src/character.js');
 module.exports.datetime  = require('./src/datetime.js');
+module.exports.fetch     = require('./src/fetch.js');
 module.exports.file      = require('./src/file.js');
 module.exports.hex       = require('./src/hex.js');
 module.exports.image     = require('./src/image.js');
