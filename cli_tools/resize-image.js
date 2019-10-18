@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+/* eslint no-console: "off" */
+
 const jsUtils = require('./index.js');
 
 const file = jsUtils.file;
