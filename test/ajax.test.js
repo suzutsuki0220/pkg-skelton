@@ -1,45 +1,30 @@
 describe('ajax', () => {
   let ajax;
-  let server = null;
-  let timeout_id = NaN;
-  const access_test_url = "http://127.0.0.1:13370/";
-  const response_data   = '200 OK';
-  var received_request;
+  const httpPort = 13370;
+  const access_test_url = "http://127.0.0.1:" + httpPort + "/";
+  let httpServer;
 
-  function stopHttpServer() {
-    clearTimeout(timeout_id);  // 妥当ではないIDを渡しても効果無く例外は発生しない
+  beforeAll(() => {
+    httpServer = require('./component/http-server.js');
+    httpServer.start(httpPort);
+  });
 
-    if (server) {
-      server.close();
-      server = null;
-    }
-  }
-
-  function startHttpServer() {
-    const response_header = {'Content-Type': 'text/plain'};
-
-    var http = require('http');
-    timeout_id = setTimeout(stopHttpServer, 5000);
-    server = http.createServer(function (req, res) {
-      received_request = req;
-      res.writeHead(200, response_header);
-      res.end(response_data);
-    }).listen(13370, '127.0.0.1');
-  }
+  afterAll(() => {
+    httpServer.stop();
+  });
 
   beforeEach(() => {
-    received_request = new Object();
+    httpServer.clearStatus();
     ajax = require('../config').require.jsUtils.ajax;
     ajax.init();
-    startHttpServer();
   });
 
   describe('get()', () => {
     test('expect 200 OK', done => {
       function fetchData(xhr) {
+        const received_request = httpServer.getLastReceivedRequest();
         expect(received_request.method.toUpperCase()).toBe('GET');
         expect(xhr.status).toBe(200);
-        stopHttpServer();
         done();
       }
 
@@ -49,10 +34,10 @@ describe('ajax', () => {
     });
     test('set customized header', done => {
       function fetchData(xhr) {
+        const received_request = httpServer.getLastReceivedRequest();
         expect(received_request.method.toUpperCase()).toBe('GET');
         expect(received_request.headers['x-customized-value']).toBe('check_ok');
         expect(xhr.status).toBe(200);
-        stopHttpServer();
         done();
       }
 
@@ -69,10 +54,10 @@ describe('ajax', () => {
   describe('post()', () => {
     test('expect 200 OK', done => {
       function fetchData(xhr) {
+        const received_request = httpServer.getLastReceivedRequest();
         expect(received_request.method.toUpperCase()).toBe('POST');
         expect(received_request.headers['content-type']).toBe('application/x-www-form-urlencoded');
         expect(xhr.status).toBe(200);
-        stopHttpServer();
         done();
       }
 
@@ -82,11 +67,11 @@ describe('ajax', () => {
     });
     test('set customized header', done => {
       function fetchData(xhr) {
+        const received_request = httpServer.getLastReceivedRequest();
         expect(received_request.method.toUpperCase()).toBe('POST');
         expect(received_request.headers['content-type']).toBe('text/plain');
         expect(received_request.headers['x-customized-value']).toBe('check_ok');
         expect(xhr.status).toBe(200);
-        stopHttpServer();
         done();
       }
 
@@ -104,19 +89,17 @@ describe('ajax', () => {
   describe('fail()', () => {
     test('connection fail', done => {
       function onSuccess(xhr) {
-        stopHttpServer();
         expect(false).toBe(true);  // always fail
         done();
       }
       function onError(xhr) {
-        stopHttpServer();
         expect(xhr.status).not.toBe(200);
         done();
       }
 
       ajax.setOnSuccess(onSuccess);
       ajax.setOnError(onError);
-      ajax.post("http://example.invalid/", null);
+      ajax.post("http://127.0.0.1:4/", null);
 //      expect(received_request.method.toUpperCase()).toBe('POST');
     });
   });
@@ -126,7 +109,6 @@ describe('ajax', () => {
       function fetchData(xhr) {
         expect(xhr.status).toBe(0);
         setTimeout(function() {
-            stopHttpServer();
             done();
         }, 1000);
       }

@@ -1,3 +1,5 @@
+function noWork() {}
+
 function fetchResource() {
     return (typeof fetch === 'undefined') ? require('node-fetch') : fetch;
 }
@@ -24,7 +26,7 @@ function composeBody(request) {
     }
 }
 
-module.exports.request = function(uri, request, onSuccess, onError) {
+module.exports.request = function(request, onSuccess = noWork, onError = noWork) {
     const compose = composeBody(request);
 
     const f = fetchResource();
@@ -35,9 +37,10 @@ module.exports.request = function(uri, request, onSuccess, onError) {
         body: compose.body
     }).then(response => {
         if (response.ok) {
-            return (request.format === "json") ? response.json() : response.text();
+            // request.format -> arrayBuffer, blob, json, text, formData
+            return (request.format) ? response[request.format]() : response.text();
         } else {
-            return Promise.reject(new Error("ERROR status: " + response.status));
+            return Promise.reject(new Error(response.status + " " + response.statusText));
         }
     }).then(onSuccess).catch(onError);
 };
