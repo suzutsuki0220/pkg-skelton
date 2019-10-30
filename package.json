@@ -10,6 +10,8 @@
     "test:cc-report": "run-s test:coverage test:get-reporter test:upload-report",
     "test:get-reporter": "if [ ! -x ./cc-test-reporter ]; then curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter && chmod +x ./cc-test-reporter; fi",
     "test:upload-report": "CC_TEST_REPORTER_ID=77c63b9255e266fffca0db0ebeb9d71ba089d0f9c28db73e8e3071ec3f8e8574 GIT_COMMIT=$(git log | grep -m1 -oE '[^ ]+$') ./cc-test-reporter after-build -t lcov --exit-code $?",
+    "webpack": "npx webpack --mode production",
+    "webpack-dev": "npx webpack",
     "get-update": "npm-check-updates -u && npm update && npm update --save-dev"
   },
   "repository": {
@@ -24,12 +26,20 @@
     "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
+    "css-loader": "^3.2.0",
     "eslint": "^6.4.0",
     "eslint-plugin-jest": "^22.17.0",
     "jest": "^24.9.0",
     "node-fetch": "^2.6.0",
+    "node-sass": "^4.13.0",
     "npm-check-updates": "^3.1.23",
-    "npm-run-all": "^4.1.5"
+    "npm-run-all": "^4.1.5",
+    "sass-loader": "^8.0.0",
+    "style-loader": "^1.0.0",
+    "url-loader": "^2.2.0",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.9",
+    "webpack-node-externals": "^1.7.2"
   },
   "jest": {
     "testEnvironment": "node"
