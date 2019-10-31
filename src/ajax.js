@@ -40,8 +40,14 @@ function setHeaders() {
     }
 }
 
+function close() {
+    if (httpRequest) {
+        httpRequest = null;
+    }
+}
+
 exports.init = function() {
-    this.close();
+    close();
 
     httpRequest = createXhr();
     httpRequest.onreadystatechange = stateChangedWork;
@@ -52,11 +58,7 @@ exports.init = function() {
     }
 };
 
-exports.close = function() {
-    if (httpRequest) {
-        httpRequest = null;
-    }
-};
+exports.close = close;
 
 exports.abort = function() {
     if (httpRequest) {

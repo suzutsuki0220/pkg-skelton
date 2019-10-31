@@ -2,6 +2,10 @@ const re_full_alphanumeric_and_symbol = /[！-～]/g;  // included /[Ａ-Ｚａ-
 const re_half_alphanumeric_and_symbol = /[!-~]/g;
 const re_half_katakana = /[｡-ﾟ]/g;  // 半角カナと点や丸などの幾つかの記号
 
+function chr(code) {
+    return String.fromCodePoint(code);
+}
+
 function doReReplace(re, codeLift, string) {
     return string.replace(re, function(s) {
         return String.fromCharCode(s.charCodeAt(0) + codeLift);
@@ -13,12 +17,10 @@ module.exports.escapeControlChar = function(code) {
         return '.';
     }
 
-    return this.chr(code);
+    return chr(code);
 };
 
-module.exports.chr = function(code) {
-    return String.fromCodePoint(code);
-};
+module.exports.chr = chr;
 
 module.exports.normalizeHyphen = function(string) {
     return string.replace(/[－—–−‒─―ｰ━‐]/g, '-');

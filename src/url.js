@@ -18,17 +18,17 @@ function keyEqualValue(query, key, value) {
     return ret;
 }
 
-module.exports.getQueryInUrl = function(url) {
+function getQueryInUrl(url) {
     if (!url) url = getWindowLocationHref();
     const delim_idx = url.indexOf('?');
 
     return delim_idx >= 0 ? splitSection(url.substring(delim_idx + 1)) : "";
-};
+}
 
-module.exports.getRawParams = function(url) {
+function getRawParams(url) {
     var params = new Object();
 
-    const arry = this.getQueryInUrl(url).split('&');
+    const arry = getQueryInUrl(url).split('&');
     for (var i=0; i<arry.length; i++) {
         const delim = arry[i].indexOf('=');
 
@@ -53,7 +53,10 @@ module.exports.getRawParams = function(url) {
     }
 
     return params;
-};
+}
+
+module.exports.getQueryInUrl = getQueryInUrl;
+module.exports.getRawParams = getRawParams;
 
 module.exports.makeQueryString = function(params) {
     var query = "";
@@ -73,7 +76,7 @@ module.exports.makeQueryString = function(params) {
 };
 
 module.exports.getParams = function(url) {
-    var params = this.getRawParams(url);
+    var params = getRawParams(url);
     for (var p in params) {
         if (Object.prototype.hasOwnProperty.call(params, p)) {
             if (Array.isArray(params[p])) {

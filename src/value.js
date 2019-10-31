@@ -1,4 +1,18 @@
-module.exports.replaceNanToZero = function(value) {
+function getMin(value, min) {
+    return isNaN(min) ? value : (min > value ? value : min);
+}
+
+function getMax(value, max) {
+    return isNaN(max) ? value : (max < value ? value : max);
+}
+
+function round(value, round_digit) {
+    const shift = Math.pow(10, replaceNanToZero(round_digit));
+
+    return Math.floor(value * shift) / shift;
+}
+
+function replaceNanToZero(value) {
     var ret = 0;
     if (value) {
         ret = parseFloat(value.trim ? value.trim() : value);
@@ -7,7 +21,9 @@ module.exports.replaceNanToZero = function(value) {
         }
     }
     return ret;
-};
+}
+
+module.exports.replaceNanToZero = replaceNanToZero;
 
 module.exports.zeroPadding = function(num, zeros) {
     var padding = '';
@@ -34,15 +50,11 @@ module.exports.percent = function(value, total_count, round_digit) {
 
     const percent = (value / total_count) * 100;
 
-    return this.round(percent, round_digit);
+    return round(percent, round_digit);
 };
 
 // 指定した小数部桁数で切り捨てする
-module.exports.round = function(value, round_digit) {
-    const shift = Math.pow(10, this.replaceNanToZero(round_digit));
-
-    return Math.floor(value * shift) / shift;
-};
+module.exports.round = round;
 
 // value を最小値から最大値の間に収めるように返す
 module.exports.normalize = function(input, min, max) {
@@ -54,20 +66,15 @@ module.exports.normalize = function(input, min, max) {
 };
 
 module.exports.setMinMax = function(value, obj) {
-    obj.min = this.getMin(value, obj.min);
-    obj.max = this.getMax(value, obj.max);
+    obj.min = getMin(value, obj.min);
+    obj.max = getMax(value, obj.max);
 };
 
 // Math.min() / Math.max() では NaN の値が含まれると NaN になるが、
 // この処理では NaN は無視して算出されるのが異なる
 // 大小比較で value が NaN の時は常に false となる
-module.exports.getMin = function(value, min) {
-    return isNaN(min) ? value : (min > value ? value : min);
-};
-
-module.exports.getMax = function(value, max) {
-    return isNaN(max) ? value : (max < value ? value : max);
-};
+module.exports.getMin = getMin;
+module.exports.getMax = getMax;
 
 // 2つの値の最大公約数を求める 見つからない場合は0
 module.exports.getGcd = function(a, b) {

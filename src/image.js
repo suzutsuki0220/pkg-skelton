@@ -23,7 +23,7 @@ function load(base64image, onloadFunc) {
     image.src = base64image;
 }
 
-module.exports.isValidSize = function(size) {
+function isValidSize(size) {
     if (size && isNaN(size.width) === false && isNaN(size.height) === false) {
         if (size.width > 0 && size.height > 0) {
             return true;
@@ -31,12 +31,47 @@ module.exports.isValidSize = function(size) {
     }
 
     return false;
-};
+}
+
+function isLandscape(size) {
+    return (size.width >= size.height) ? true : false;
+}
+
+function getScaledSize(src_size, scale) {
+    var ret = {width: 0, height: 0};
+
+    if (isValidSize(src_size) === true) {
+        ret.width  = Math.floor(src_size.width * scale);
+        ret.height = Math.floor(src_size.height * scale);
+    }
+
+    return ret;
+}
+
+function getCenterXY(size) {
+    return {
+        x: Math.floor(size.width / 2),
+        y: Math.floor(size.height / 2)
+    };
+}
+
+function getScale(src_size, target_dimension) {
+    if (isValidSize(src_size) === false) {
+        return 0;
+    }
+
+    if (src_size.width > src_size.height) {
+        return target_dimension / src_size.width;
+    } else {
+        return target_dimension / src_size.height;
+    }
+}
+
+module.exports.getCenterXY = getCenterXY;
+module.exports.isValidSize = isValidSize;
 
 // 画像が横長であるか
-module.exports.isLandscape = function(size) {
-    return (size.width >= size.height) ? true : false;
-};
+module.exports.isLandscape = isLandscape;
 
 // 画像が縦長であるか
 module.exports.isPortrait = function(size) {
@@ -44,18 +79,11 @@ module.exports.isPortrait = function(size) {
         return true;
     }
 
-    return !(this.isLandscape(size));
-};
-
-module.exports.getCenterXY = function(size) {
-    return {
-        x: Math.floor(size.width / 2),
-        y: Math.floor(size.height / 2)
-    };
+    return !(isLandscape(size));
 };
 
 module.exports.getAreaSize = function(size) {
-    if (this.isValidSize(size) === false) {
+    if (isValidSize(size) === false) {
         return 0;
     }
 
@@ -79,13 +107,13 @@ module.exports.getMaximumFitSize = function(source_size, area_size) {
     const scale_w = area_size.width / source_size.width;
     const scale_h = area_size.height / source_size.height;
 
-    return this.getScaledSize(source_size, Math.min(scale_w, scale_h));
+    return getScaledSize(source_size, Math.min(scale_w, scale_h));
 };
 
 // 中心に表示するための画像の配置位置(x,y)
 module.exports.getCenteringPositionXY = function(source_size, area_size) {
-    const source_area = this.getCenterXY(source_size);
-    const center_area = this.getCenterXY(area_size);
+    const source_area = getCenterXY(source_size);
+    const center_area = getCenterXY(area_size);
 
     return {
         x: center_area.x - source_area.x,
@@ -93,28 +121,8 @@ module.exports.getCenteringPositionXY = function(source_size, area_size) {
     };
 };
 
-module.exports.getScale = function(src_size, target_dimension) {
-    if (this.isValidSize(src_size) === false) {
-        return 0;
-    }
-
-    if (src_size.width > src_size.height) {
-        return target_dimension / src_size.width;
-    } else {
-        return target_dimension / src_size.height;
-    }
-};
-
-module.exports.getScaledSize = function(src_size, scale) {
-    var ret = {width: 0, height: 0};
-
-    if (this.isValidSize(src_size) === true) {
-        ret.width  = Math.floor(src_size.width * scale);
-        ret.height = Math.floor(src_size.height * scale);
-    }
-
-    return ret;
-};
+module.exports.getScale = getScale;
+module.exports.getScaledSize = getScaledSize;
 
 module.exports.getSize = function(base64image, callback) {
     load(base64image, function(image, event) {
@@ -123,11 +131,9 @@ module.exports.getSize = function(base64image, callback) {
 };
 
 module.exports.resize = function(base64image, target_dimension, callback, mime_type = "image/png") {
-    const self = this;
-
     load(base64image, function(image, event) {
-        const scale = self.getScale(image, target_dimension);
-        const dstSize = self.getScaledSize(image, scale);
+        const scale = getScale(image, target_dimension);
+        const dstSize = getScaledSize(image, scale);
         const canvas = makeCanvas(dstSize);
         var ctx = canvas.getContext('2d');
         ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, dstSize.width, dstSize.height);
@@ -136,14 +142,12 @@ module.exports.resize = function(base64image, target_dimension, callback, mime_t
 };
 
 module.exports.rotate = function(base64image, angleRadian, callback, mime_type = "image/png") {
-    const self = this;
-
     load(base64image, function(image, event) {
         const dstSize = {
             width: Math.round(image.height * Math.abs(Math.sin(angleRadian)) + image.width * Math.abs(Math.cos(angleRadian))),
             height: Math.round(image.height * Math.abs(Math.cos(angleRadian)) + image.width * Math.abs(Math.sin(angleRadian)))
         };
-        const center = self.getCenterXY(dstSize);
+        const center = getCenterXY(dstSize);
         const canvas = makeCanvas(dstSize);
         var ctx = canvas.getContext('2d');
         ctx.translate(center.x, center.y);
