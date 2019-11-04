@@ -150,6 +150,36 @@ describe('value', () => {
         expect(value.round(0.1234, 10)).toBe(0.1234);
     });
   });
+  describe('makeMetricPrefix()', () => {
+    test('number MetricPrefix', () => {
+        expect(value.makeMetricPrefix(0)).toBe('0');
+        expect(value.makeMetricPrefix(1)).toBe('1');
+        expect(value.makeMetricPrefix(999)).toBe('999');
+        expect(value.makeMetricPrefix(1000)).toBe('1K');
+        expect(value.makeMetricPrefix(999999)).toBe('999K');
+        expect(value.makeMetricPrefix(1000000)).toBe('1M');
+        expect(value.makeMetricPrefix(999999999)).toBe('999M');
+        expect(value.makeMetricPrefix(1000000000)).toBe('1G');
+        expect(value.makeMetricPrefix(999999999999)).toBe('999G');
+        expect(value.makeMetricPrefix(1000000000000)).toBe('1T');
+        expect(value.makeMetricPrefix(999999999999999)).toBe('999T');
+        expect(value.makeMetricPrefix(1000000000000000)).toBe('1P');
+    });
+    test('binary MetricPrefix', () => {
+        expect(value.makeMetricPrefix(0, true)).toBe('0');
+        expect(value.makeMetricPrefix(1, true)).toBe('1');
+        expect(value.makeMetricPrefix(1023, true)).toBe('1023');
+        expect(value.makeMetricPrefix(1024, true)).toBe('1Ki');
+        expect(value.makeMetricPrefix(1048575, true)).toBe('1023Ki');
+        expect(value.makeMetricPrefix(1048576, true)).toBe('1Mi');
+        expect(value.makeMetricPrefix(1073741823, true)).toBe('1023Mi');
+        expect(value.makeMetricPrefix(1073741824, true)).toBe('1Gi');
+        expect(value.makeMetricPrefix(1099511627775, true)).toBe('1023Gi');
+        expect(value.makeMetricPrefix(1099511627776, true)).toBe('1Ti');
+        expect(value.makeMetricPrefix(1125899906842623, true)).toBe('1023Ti');
+        expect(value.makeMetricPrefix(1125899906842624, true)).toBe('1Pi');
+    });
+  });
   describe('uuid()', () => {
     test('uuid', () => {
       const a = value.uuid();

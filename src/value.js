@@ -101,6 +101,21 @@ module.exports.fixNewLine = function(string) {
     return string ? string.replace(/(\r\n|\r|\n)/g, '\n') : "";
 };
 
+// SI接頭辞を付けて数値を短く表現する
+module.exports.makeMetricPrefix = function(value, binary = false) {
+    const units = ['K', 'M', 'G', 'T', 'P'];
+    const iec = binary ? 'i' : '';
+    const multiplier = binary ? 1024 : 1000;
+
+    for (let i=units.length; i>0; i--) {
+        if (value >= Math.pow(multiplier, i)) {
+            return String(Math.floor(value / Math.pow(multiplier, i))) + units[i - 1] + iec;
+        }
+    }
+
+    return String(Math.floor(value));
+};
+
 module.exports.uuid = function() {
     var uuid = "";
     for (var i=0; i<32; i++) {
