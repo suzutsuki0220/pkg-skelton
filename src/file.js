@@ -1,3 +1,5 @@
+const character = require('./character.js');
+
 /**
  * Blobオブジェクトを使ってdataのダウンロード動作を行う
  *  windowオブジェクトを使うためブラウザ専用
@@ -67,6 +69,17 @@ module.exports.save = function(filename, data, encoding) {
     } else {
         return fs.writeFileSync(filename, data, {encoding: encoding, flag: 'w'});
     }
+};
+
+module.exports.isFileName = function(filename) {
+    if (!filename || filename.length > 247) {
+        return false;
+    }
+    if (character.hasControlChar(filename) || filename.match(/[\\\/:\?<>|\"\*]/)) {
+        return false;
+    }
+
+    return true;
 };
 
 module.exports.FileToBase64 = function(filename) {

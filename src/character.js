@@ -12,14 +12,31 @@ function doReReplace(re, codeLift, string) {
     });
 }
 
-module.exports.escapeControlChar = function(code) {
-    if ((0 <= code && code <=31) || code === 127 || (128 <= code && code <= 159)) {
+function isControlChar(code) {
+    return ((0 <= code && code <=31) || code === 127 || (128 <= code && code <= 159));
+}
+
+function hasControlChar(string) {
+    for (let i=0; i<string.length; i++) {
+        if (isControlChar(string.charCodeAt(i))) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function escapeControlChar(code) {
+    if (isControlChar(code)) {
         return '.';
     }
 
     return chr(code);
-};
+}
 
+module.exports.isControlChar = isControlChar;
+module.exports.hasControlChar = hasControlChar;
+module.exports.escapeControlChar = escapeControlChar;
 module.exports.chr = chr;
 
 module.exports.normalizeHyphen = function(string) {

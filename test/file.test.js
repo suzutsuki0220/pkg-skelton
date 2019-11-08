@@ -41,4 +41,24 @@ describe('file', () => {
       expect(file.removeDataScheme('')).toBe('');
     });
   });
+
+  describe('isFileName()', () => {
+    test('true pattern', () => {
+      expect(file.isFileName(' ')).toBe(true);
+      expect(file.isFileName('0123456789')).toBe(true);
+      expect(file.isFileName('filename')).toBe(true);
+      expect(file.isFileName('日本語')).toBe(true);
+      expect(file.isFileName('０１２３４５６７８９')).toBe(true);
+      expect(file.isFileName('ﾌｧｲﾙ')).toBe(true);
+      expect(file.isFileName('ファイル')).toBe(true);
+    });
+    test('false pattern', () => {
+      expect(file.isFileName()).toBe(false);
+      expect(file.isFileName('')).toBe(false);
+      expect(file.isFileName('1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567')).toBe(true);
+      expect(file.isFileName('12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678')).toBe(false);
+      expect(file.isFileName('\n')).toBe(false);
+      expect(file.isFileName('\t')).toBe(false);
+    });
+  });
 });
