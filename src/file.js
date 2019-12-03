@@ -1,5 +1,8 @@
 const character = require('./character.js');
 
+const regexPath = RegExp('(.*?)/([^/]*?)$');
+const regexFile = RegExp('^((.*)\.)?([^\.]*?)$');
+
 /**
  * Blobオブジェクトを使ってdataのダウンロード動作を行う
  *  windowオブジェクトを使うためブラウザ専用
@@ -80,6 +83,33 @@ module.exports.isFileName = function(filename) {
     }
 
     return true;
+};
+
+module.exports.getNameFromPath = function(path) {
+    let dirname = '';
+    let basename = '';
+    let filename = '';
+    let extension = '';
+
+    if (path) {
+        const i = path.lastIndexOf('/');
+        if (0 <= i) {
+            dirname  = path.substring(0, i + 1);
+            basename = path.substring(i + 1);
+        } else {
+            basename = path;
+        }
+
+        const j = basename.lastIndexOf('.');
+        if (0 <= j) {
+            filename  = basename.substring(0, j);
+            extension = basename.substring(j + 1);
+        } else {
+            filename = basename;
+        }
+    }
+
+    return {dirname: dirname, basename: basename, filename: filename, extension: extension};
 };
 
 module.exports.FileToBase64 = function(filename) {

@@ -61,4 +61,33 @@ describe('file', () => {
       expect(file.isFileName('\t')).toBe(false);
     });
   });
+
+  describe('getNameFromPath()', () => {
+    test('path check', () => {
+      expect(file.getNameFromPath()).toEqual({dirname: '', basename: '', filename: '', extension: ''});
+      expect(file.getNameFromPath('')).toEqual({dirname: '', basename: '', filename: '', extension: ''});
+      expect(file.getNameFromPath('a')).toEqual({dirname: '', basename: 'a', filename: 'a', extension: ''});
+      expect(file.getNameFromPath('a.txt')).toEqual({dirname: '', basename: 'a.txt', filename: 'a', extension: 'txt'});
+      expect(file.getNameFromPath('a.csv.txt')).toEqual({dirname: '', basename: 'a.csv.txt', filename: 'a.csv', extension: 'txt'});
+      expect(file.getNameFromPath('/')).toEqual({dirname: '/', basename: '', filename: '', extension: ''});
+      expect(file.getNameFromPath('/aa')).toEqual({dirname: '/', basename: 'aa', filename: 'aa', extension: ''});
+      expect(file.getNameFromPath('/usr/bin/')).toEqual({dirname: '/usr/bin/', basename: '', filename: '', extension: ''});
+      expect(file.getNameFromPath('/usr/bin/sort')).toEqual({dirname: '/usr/bin/', basename: 'sort', filename: 'sort', extension: ''});
+      expect(file.getNameFromPath('include/stdio.h .h')).toEqual({dirname: 'include/', basename: 'stdio.h .h', filename: 'stdio.h ', extension: 'h'});
+    });
+    test('extra slash check', () => {
+      expect(file.getNameFromPath('//')).toEqual({dirname: '//', basename: '', filename: '', extension: ''});
+      expect(file.getNameFromPath('//aa//')).toEqual({dirname: '//aa//', basename: '', filename: '', extension: ''});
+      expect(file.getNameFromPath('aa//')).toEqual({dirname: 'aa//', basename: '', filename: '', extension: ''});
+      expect(file.getNameFromPath('aa//bb//')).toEqual({dirname: 'aa//bb//', basename: '', filename: '', extension: ''});
+    });
+    test('dot start file', () => {
+      expect(file.getNameFromPath('.')).toEqual({dirname: '', basename: '.', filename: '', extension: ''});
+      expect(file.getNameFromPath('..')).toEqual({dirname: '', basename: '..', filename: '.', extension: ''});
+      expect(file.getNameFromPath('../..aa')).toEqual({dirname: '../', basename: '..aa', filename: '.', extension: 'aa'});
+      expect(file.getNameFromPath('.bashrc')).toEqual({dirname: '', basename: '.bashrc', filename: '', extension: 'bashrc'});
+      expect(file.getNameFromPath('~/.bashrc')).toEqual({dirname: '~/', basename: '.bashrc', filename: '', extension: 'bashrc'});
+      expect(file.getNameFromPath('/home/user.1/.bashrc')).toEqual({dirname: '/home/user.1/', basename: '.bashrc', filename: '', extension: 'bashrc'});
+    });
+  });
 });
