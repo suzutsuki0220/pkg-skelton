@@ -9,10 +9,12 @@
   <link rel="stylesheet" href="./css/uikit.min.css" />
   <script src="./js/uikit.min.js"></script>
   <script type="text/javascript" src="../dist/web/jsutils.js"></script>
-  <script type="text/javascript" src="./js/datetime.js"></script>
+  <script type="text/javascript" src="./js/parameter-defs.js"></script>
+  <script type="text/javascript" src="./js/form.js"></script>
   <script type="text/javascript">
     window.addEventListener("load", function() {
-        makeDatetimeArea();
+        makeArea(document.getElementById('character_area'), parameters.character, jsUtils.character);
+        makeArea(document.getElementById('datetime_area'), parameters.datetime, jsUtils.datetime);
     });
   </script>
   <title>jsUtils Demo Page</title>
@@ -35,6 +37,7 @@
 <div class="uk-section uk-section-default">
   <h2 id="bit">Bit</h2>
   <h2 id="character">Character</h2>
+  <div id="character_area" class="uk-container"></div>
 
   <h2 id="datetime">Datetime</h2>
   <div id="datetime_area" class="uk-container"></div>
@@ -44,6 +47,5 @@
   <h2 id="range">Range</h2>
 </div>
 
-</form>
 </body>
 </html>
