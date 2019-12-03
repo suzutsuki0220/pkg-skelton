@@ -40,6 +40,7 @@ const target_size = {
 
 const source_image = process.argv[2];
 const resize_set = process.argv[3];
+const name = jsUtils.file.getNameFromPath(source_image);
 
 function doImageResize(base64, size, filename) {
     image.resize(base64, size, function(data) {
@@ -77,7 +78,7 @@ if (!select_size) {
 }
 
 if (typeof select_size === 'number') {
-    doImageResize(base64, select_size, source_image + "_" + select_size + ".png");
+    doImageResize(base64, select_size, name.dirname + name.filename + "_" + select_size + ".png");
 } else {
     const keys = Object.keys(select_size);
     for (var i=0; i<keys.length; i++) {
