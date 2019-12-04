@@ -3,7 +3,10 @@ function isMatch(value, pattern) {
         return false;
     }
 
-    return (value & pattern) === pattern;
+    const v = parseInt(value);
+    const p = parseInt(pattern);
+
+    return (v & p) === p;
 }
 
 module.exports.isMatch = isMatch;
