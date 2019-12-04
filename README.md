@@ -5,3 +5,5 @@
 
 # jsUtils
 JavaScript でよく使われるコード
+
+[Demo](http://suzutsuki0220.github.io/jsUtils)

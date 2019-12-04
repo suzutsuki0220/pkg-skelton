@@ -9,7 +9,8 @@ function isHex(v) {
 module.exports.isHex = isHex;
 
 module.exports.toHex = function(decimal, digits = 2) {
-    return isNaN(decimal) ? null : value.zeroPadding(decimal.toString(16), digits)
+    const d = parseInt(decimal);
+    return isNaN(d) ? null : value.zeroPadding(d.toString(16), digits)
 };
 
 module.exports.toDecimal = function(hex) {

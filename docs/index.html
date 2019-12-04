@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google" content="notranslate">
+  <meta http-equiv="Content-Script-Type" content="text/javascript">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <link rel="stylesheet" href="./css/uikit.min.css" />
+  <script src="./js/uikit.min.js"></script>
+  <script type="text/javascript" src="./assets/jsutils.js"></script>
+  <script type="text/javascript" src="./js/parameter-defs.js"></script>
+  <script type="text/javascript" src="./js/form.js"></script>
+  <script type="text/javascript">
+    window.addEventListener("load", function() {
+        makeArea(document.getElementById('bit_area'), parameters.bit, jsUtils.bit);
+        makeArea(document.getElementById('character_area'), parameters.character, jsUtils.character);
+        makeArea(document.getElementById('datetime_area'), parameters.datetime, jsUtils.datetime);
+        makeArea(document.getElementById('hex_area'), parameters.hex, jsUtils.hex);
+    });
+  </script>
+  <title>jsUtils Demo Page</title>
+</head>
+<body>
+<nav class="uk-navbar-container" uk-navbar>
+  <div class="uk-navbar-left">
+    <div class="uk-navbar-item uk-logo">jsUtils</div>
+    <ul class="uk-navbar-nav">
+      <li class="uk-active"><a href="#bit">Bit</a></li>
+      <li><a href="#character">Character</a></li>
+      <li><a href="#datetime">Datetime</a></li>
+      <li><a href="#file">File</a></li>
+      <li><a href="#hex">Hex</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="uk-section uk-section-default">
+  <h2 id="bit">Bit</h2>
+    <div id="bit_area" class="uk-container"></div>
+  <h2 id="character">Character</h2>
+    <div id="character_area" class="uk-container"></div>
+  <h2 id="datetime">Datetime</h2>
+    <div id="datetime_area" class="uk-container"></div>
+  <h2 id="file">File</h2>
+  <h2 id="hex">Hex</h2>
+    <div id="hex_area" class="uk-container"></div>
+</div>
+
+</body>
+</html>
