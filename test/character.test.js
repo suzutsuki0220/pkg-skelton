@@ -55,6 +55,8 @@ describe('character', () => {
       expect(character.toFullWidthKatakana('ｯｬｭｮ')).toBe('ッャュョ');
       expect(character.toFullWidthKatakana('｡､ｰ｢｣･')).toBe('。、ー「」・');
       expect(character.toFullWidthKatakana('ｱｶｻﾀﾅﾊﾏﾔﾗﾜｦﾝ')).toBe('アカサタナハマヤラワヲン');
+      expect(character.toFullWidthKatakana('ｶﾞｷﾞｸﾞｹﾞｺﾞｻﾞｼﾞｽﾞｾﾞｿﾞﾀﾞｼﾞﾂﾞﾃﾞﾄﾞﾊﾞﾋﾞﾌﾞﾍﾞﾎﾞ')).toBe('ガギグゲゴザジズゼゾダジヅデドバビブベボ');
+      expect(character.toFullWidthKatakana('ﾊﾟﾋﾟﾌﾟﾍﾟﾎﾟ')).toBe('パピプペポ');
     });
     test('not hankaku kana check', () => {
       expect(character.toFullWidthKatakana('0123456789')).toBe('0123456789');

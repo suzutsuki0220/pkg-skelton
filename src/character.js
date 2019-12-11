@@ -1,6 +1,8 @@
 const re_full_alphanumeric_and_symbol = /[！-～]/g;  // included /[Ａ-Ｚａ-ｚ０-９／]/
 const re_half_alphanumeric_and_symbol = /[!-~]/g;
 const re_half_katakana = /[｡-ﾟ]/g;  // 半角カナと点や丸などの幾つかの記号
+const re_dakuon_katakana = /[カキクケコサシスセソタチツテトハヒフヘホ]゛/g;
+const re_handakuon_katakana = /[ハヒフヘホ]゜/g;
 
 function chr(code) {
     return String.fromCodePoint(code);
@@ -34,6 +36,16 @@ function escapeControlChar(code) {
     return chr(code);
 }
 
+function combineDakuonnHandakuon(str) {
+    str = str.replace(re_dakuon_katakana, function(s) {
+        return String.fromCodePoint(s.charCodeAt(0) + 1);
+    });
+
+    return str.replace(re_handakuon_katakana, function(s) {
+        return String.fromCodePoint(s.charCodeAt(0) + 2);
+    });
+}
+
 module.exports.isControlChar = isControlChar;
 module.exports.hasControlChar = hasControlChar;
 module.exports.escapeControlChar = escapeControlChar;
@@ -63,7 +75,9 @@ module.exports.toFullWidthKatakana = function(string) {
         'ラ','リ','ル','レ','ロ','ワ','ン','゛','゜'  // ﾗﾘﾙﾚﾛﾜﾝﾞﾟ
     ];
 
-    return string.replace(re_half_katakana, function(s) {
+    const fullWidthKana = string.replace(re_half_katakana, function(s) {
         return kanamap[s.charCodeAt(0) - kanaStartCode];
     });
+
+    return combineDakuonnHandakuon(fullWidthKana);
 };
