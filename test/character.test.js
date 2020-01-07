@@ -22,6 +22,13 @@ describe('character', () => {
       expect(character.normalizeHyphen('-‐—–−‒─―ｰ━')).toBe('----------');
     });
   });
+  describe('repeatChar()', () => {
+    test('repeat same character', () => {
+      expect(character.repeatChar(',', 0)).toBe('');
+      expect(character.repeatChar(',,', 1)).toBe(',,');
+      expect(character.repeatChar(',', 3)).toBe(',,,');
+    });
+  });
   describe('toHalfWidthLetter()', () => {
     test('fullwidth to halfwidth check', () => {
       expect(character.toHalfWidthLetter('0')).toBe('0');

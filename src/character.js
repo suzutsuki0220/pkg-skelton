@@ -55,6 +55,16 @@ module.exports.normalizeHyphen = function(string) {
     return string.replace(/[－—–−‒─―ｰ━‐]/g, '-');
 }
 
+module.exports.repeatChar = function(character, count) {
+    let ret = '';
+
+    for (let i=0; i<count; i++) {
+        ret += character;
+    }
+
+    return ret;
+};
+
 module.exports.toHalfWidthLetter = function(string) {
     return doReReplace(re_full_alphanumeric_and_symbol, -0xFEE0, string)
            .replace(/　/g, ' ');
