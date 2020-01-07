@@ -62,6 +62,14 @@ module.exports.load = function(filename, encoding) {
 };
 
 module.exports.save = function(filename, data, encoding) {
+    if (typeof Blob !== 'undefined') {
+        return this.saveBlob(data, filename);
+    }
+
+    return this.saveFs(filename, data, encoding);
+};
+
+module.exports.saveFs = function(filename, data, encoding) {
     const fs = require('fs');
 
     if (typeof encoding === undefined) {
