@@ -139,4 +139,15 @@ describe('datetime', () => {
       expect(datetime.getEpoch('2009-02-13T23:31:30')).toBe(1234567890);
     });
   });
+
+  describe('getEpochFromEstimatedDateOrder()', () => {
+    test('getEpochFromEstimatedDateOrder', () => {
+      expect(datetime.getEpochFromEstimatedDateOrder('12/2/2012', '3:12:12')).toBe(1354417932000);  // 推定不能はMDYで処理される (Dec 2nd)
+      expect(datetime.getEpochFromEstimatedDateOrder('12/26/2016', '2:36:6')).toBe(1482719766000);
+      expect(datetime.getEpochFromEstimatedDateOrder('26/12/2016', '2:36:6')).toBe(1482719766000);
+      expect(datetime.getEpochFromEstimatedDateOrder('2012/12/12', '3:12:12')).toBe(1355281932000);
+      expect(datetime.getEpochFromEstimatedDateOrder('2012/12/12', '3:12')).toBe(1355281920000);
+      expect(datetime.getEpochFromEstimatedDateOrder('2012/12/12')).toBe(1355270400000);
+    });
+  });
 })

@@ -136,3 +136,43 @@ module.exports.getEpoch = function(datetime) {
 
     return ret;
 };
+
+module.exports.getEpochFromEstimatedDateOrder = function(dateString, timeString = '') {
+    let year, month, day;
+    let hour = 0;
+    let minute = 0;
+    let second = 0;
+
+    const d = dateString.split(/[-\/\.]/);
+    if (!d || d.length !== 3) {
+        return NaN;
+    }
+
+    if (d[0] > 31) {
+        // 先頭が年 -> YMD
+        year  = d[0];
+        month = d[1];
+        day   = d[2];
+    } else if (d[0] > 12) {
+        // 先頭が日(13以上) -> DMY
+        //   12日未満はMDYとして扱われる問題あり
+        year  = d[2];
+        month = d[1];
+        day   = d[0];
+    } else {
+        year  = d[2];
+        month = d[0];
+        day   = d[1];
+    }
+
+    if (timeString) {
+        const t = timeString.split(':');
+        hour   = t[0] ? t[0] : 0;
+        minute = t[1] ? t[1] : 0;
+        second = t[2] ? t[2] : 0;
+    }
+
+    const date = new Date(Date.UTC(year, month - 1, day, hour, minute, second));
+
+    return date.getTime();  // ミリ秒
+};
