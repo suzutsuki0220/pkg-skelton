@@ -20,6 +20,8 @@
   },
   "dependencies": {
     "canvas": "^2.6.0",
+    "iconv-lite": "^0.5.1",
+    "jschardet": "^2.1.1",
     "node-fetch": "^2.6.0",
     "node-pre-gyp": "^0.13.0",
     "npm": "^6.13.4",

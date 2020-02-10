@@ -7,6 +7,7 @@ module.exports.fetch     = require('./src/fetch.js');
 module.exports.file      = require('./src/file.js');
 module.exports.hex       = require('./src/hex.js');
 module.exports.image     = require('./src/image.js');
+module.exports.japanese  = require('./src/japanese.js');
 module.exports.range     = require('./src/range.js');
 module.exports.value     = require('./src/value.js');
 module.exports.url       = require('./src/url.js');
