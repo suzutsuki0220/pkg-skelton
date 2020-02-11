@@ -3,8 +3,8 @@ const iconv = require('iconv-lite');
 
 function workaround(encoding) {
     switch(encoding) {
-    case "windows-1252":
-        return "Shift-JIS";
+    case 'windows-1252':
+        return 'Shift-JIS';
     default:
         return encoding || 'ascii';
     }
@@ -26,7 +26,7 @@ function bufferToBinaryString(data) {
 
 function stringToArray(data) {
     if (typeof data === 'string') {
-        let buffer = new Uint16Array(data.length);
+        let buffer = new Uint8Array(data.length);
         for (let i=0; i<data.length; i++) {
             buffer[i] = data.charCodeAt(i);
         }
@@ -42,16 +42,25 @@ function isArrayBuffer(data) {
     return (data instanceof ArrayBuffer) ? true : false;
 }
 
+function needDecode(encode) {
+    const e = encode.toLowerCase();
+    if (e === 'utf-8' || e === 'ascii') {
+        return false;
+    }
+
+    return true;
+}
+
 module.exports.convert = function(data, from, to) {
     if (!data) {
         return '';
     }
 
-    const dec = iconv.decode(data, from);
+    const dec = needDecode(from) ? iconv.decode(stringToArray(data), from) : data;
     return iconv.encode(dec, to).toString();
 };
 
 module.exports.toUTF8 = function(data, from = "") {
     const encoding = from || jschardet.detect(bufferToBinaryString(data)).encoding;
-    return this.convert(stringToArray(data), workaround(encoding), 'utf-8');
+    return this.convert(data, workaround(encoding), 'utf-8');
 }
