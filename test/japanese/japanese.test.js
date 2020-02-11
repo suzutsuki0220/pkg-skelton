@@ -59,4 +59,13 @@ describe('japanese', () => {
       });
     });
   });
+  describe('convert from string', () => {
+    test('read string variable', () => {
+      expect(japanese.toUTF8('')).toEqual('');
+      expect(japanese.toUTF8('', 'ascii')).toEqual('');
+      expect(japanese.toUTF8('hello')).toEqual('hello');
+      expect(japanese.toUTF8('\xa6\xb8\xb1\x60\xa5\xce\xb0\xea\xa6\x72\xbc\xd0\xb7\xc7\xa6\x72\xc5\xe9\xaa\xed')).toEqual('次常用國字標準字體表');
+      expect(japanese.toUTF8(Buffer.from([0x68, 0x65, 0x6c, 0x6c, 0x6f]), 'win1251')).toEqual('hello');
+    });
+  });
 });
