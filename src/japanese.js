@@ -11,7 +11,7 @@ function workaround(encoding) {
 }
 
 function bufferToBinaryString(data) {
-    if (typeof data === 'string') {
+    if (isArrayBuffer(data) === false) {
         return data;
     }
 
@@ -62,7 +62,7 @@ module.exports.convert = function(data, from, to) {
     }
 
     const array = arrayBufferToArray(data);
-    const dec = needDecode(from) ? iconv.decode(stringToArray(array), from) : array;
+    const dec = needDecode(from) ? iconv.decode(stringToArray(array), from) : bufferToBinaryString(array);
     return iconv.encode(dec, to).toString();
 };
 
