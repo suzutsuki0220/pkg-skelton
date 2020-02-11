@@ -31,10 +31,15 @@ function stringToArray(data) {
             buffer[i] = data.charCodeAt(i);
         }
         return buffer;
-    } else if (isArrayBuffer(data)) {
-        return new Uint8Array(data);
     }
 
+    return data;
+}
+
+function arrayBufferToArray(data) {
+    if (isArrayBuffer(data)) {
+        return new Uint8Array(data);
+    }
     return data;
 }
 
@@ -56,7 +61,8 @@ module.exports.convert = function(data, from, to) {
         return '';
     }
 
-    const dec = needDecode(from) ? iconv.decode(stringToArray(data), from) : data;
+    const array = arrayBufferToArray(data);
+    const dec = needDecode(from) ? iconv.decode(stringToArray(array), from) : array;
     return iconv.encode(dec, to).toString();
 };
 
