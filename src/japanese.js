@@ -31,9 +31,15 @@ function stringToArray(data) {
             buffer[i] = data.charCodeAt(i);
         }
         return buffer;
+    } else if (isArrayBuffer(data)) {
+        return new Uint8Array(data);
     }
 
     return data;
+}
+
+function isArrayBuffer(data) {
+    return (data instanceof ArrayBuffer) ? true : false;
 }
 
 module.exports.convert = function(data, from, to) {
