@@ -106,4 +106,49 @@ describe('bit()', () => {
       expect(bit.getMatchedOrders(8)).toEqual([3]);
     });
   });
+  describe('getLowByte()', () => {
+    test('check valid patterns', () => {
+      expect(bit.getLowByte(0)).toBe(0);
+      expect(bit.getLowByte(1)).toBe(1);
+      expect(bit.getLowByte(255)).toBe(255);
+      expect(bit.getLowByte(256)).toBe(0);
+      expect(bit.getLowByte(257)).toBe(1);
+    });
+  });
+  describe('getNecessaryBits()', () => {
+    test('check valid patterns', () => {
+      expect(bit.getNecessaryBits(0)).toBe(0);
+      expect(bit.getNecessaryBits(1)).toBe(1);
+      expect(bit.getNecessaryBits(2)).toBe(2);
+      expect(bit.getNecessaryBits(3)).toBe(2);
+      expect(bit.getNecessaryBits(4)).toBe(3);
+      expect(bit.getNecessaryBits(5)).toBe(3);
+      expect(bit.getNecessaryBits(6)).toBe(3);
+      expect(bit.getNecessaryBits(7)).toBe(3);
+      expect(bit.getNecessaryBits(8)).toBe(4);
+      expect(bit.getNecessaryBits(5000)).toBe(13);
+      expect(bit.getNecessaryBits(0xffffffff)).toBe(32);
+    });
+  });
+  describe('getNecessaryBytes()', () => {
+    test('check valid patterns', () => {
+      expect(bit.getNecessaryBytes(0)).toBe(0);
+      expect(bit.getNecessaryBytes(1)).toBe(1);
+      expect(bit.getNecessaryBytes(255)).toBe(1);
+      expect(bit.getNecessaryBytes(256)).toBe(2);
+      expect(bit.getNecessaryBytes(257)).toBe(2);
+      expect(bit.getNecessaryBytes(65535)).toBe(2);
+      expect(bit.getNecessaryBytes(65536)).toBe(3);
+      expect(bit.getNecessaryBytes(0xffffffff)).toBe(4);
+    });
+  });
+  describe('getBytes()', () => {
+    test('check valid patterns', () => {
+      expect(bit.getBytes(0)).toEqual([0]);
+      expect(bit.getBytes(1)).toEqual([1]);
+      expect(bit.getBytes(0xff)).toEqual([0xff]);
+      expect(bit.getBytes(0x100)).toEqual([0x1, 0x00]);
+      expect(bit.getBytes(0x1ff)).toEqual([0x1, 0xff]);
+    });
+  });
 });

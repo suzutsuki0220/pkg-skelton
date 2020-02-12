@@ -1,6 +1,7 @@
 module.exports.ajax      = require('./src/ajax.js');
 module.exports.angle     = require('./src/angle.js');
 module.exports.bit       = require('./src/bit.js');
+module.exports.buffer    = require('./src/buffer.js');
 module.exports.character = require('./src/character.js');
 module.exports.datetime  = require('./src/datetime.js');
 module.exports.fetch     = require('./src/fetch.js');
