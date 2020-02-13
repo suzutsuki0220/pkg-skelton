@@ -1,6 +1,6 @@
 const jschardet = require('jschardet');
 const iconv = require('iconv-lite');
-const buffer = require('./buffer.js');
+//const buffer = require('./buffer.js');
 
 function workaround(encoding) {
     switch(encoding) {
@@ -16,8 +16,9 @@ module.exports.convert = function(data, from, to) {
         return '';
     }
 
-    const array = buffer.arrayBufferToArray(data);
-    const dec = iconv.decode(buffer.stringToArray(array), from);
+    //const array = buffer.arrayBufferToArray(data);
+    //const dec = iconv.decode(buffer.stringToArray(array), from);
+    const dec = iconv.decode(Buffer.from(data), from);
     return iconv.encode(dec, to).toString();
 };
 
