@@ -27,13 +27,18 @@ module.exports.getUTF8code = function(string) {
 };
 
 module.exports.toBinaryString = function(data) {
-    const array8 = (isArrayBuffer(data)) ? Uint8Array.from(data) : Buffer.from(data);
-    let binaryString = "";
-    for (let i=0; i<array8.length; i++) {
-        binaryString += String.fromCharCode(array8[i]);
-    }
-
-    return binaryString;
+/*
+    if (isArrayBuffer(data)) {
+        const array8 = new Uint8Array(data)
+        let binaryString = "";
+        for (let i=0; i<array8.length; i++) {
+            binaryString += String.fromCharCode(array8[i]);
+        }
+        return binaryString;
+    } else {
+*/
+        return Buffer.from(data).toString();
+//    }
 };
 
 module.exports.toArrayBuffer = function(buf) {

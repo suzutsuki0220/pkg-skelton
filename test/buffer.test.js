@@ -2,7 +2,7 @@ describe('buffer', () => {
     let buffer;
 
     const utf8 = Buffer.from([0xe3,0x81,0x82,0xe3,0x81,0x84,0xe3,0x81,0x86,0xe3,0x81,0x88,0xe3,0x81,0x8a]);
-    const utf8String = "\xe3\x81\x82\xe3\x81\x84\xe3\x81\x86\xe3\x81\x88\xe3\x81\x8a";
+    const utf8String = "\u3042\u3044\u3046\u3048\u304a";
 
     beforeEach(() => {
         buffer = require('../src/buffer.js');
@@ -10,10 +10,13 @@ describe('buffer', () => {
 
     describe('buffer', () => {
         test('utf8 buffer toBinaryString', () => {
-            expect(buffer.toBinaryString('あいうえお')).toBe(utf8String);
-            expect(buffer.toBinaryString(Buffer.from('あいうえお'))).toBe(utf8String);
-            expect(buffer.toBinaryString(buffer.toArrayBuffer(utf8))).toBe(utf8String);
-            expect(buffer.toBinaryString(utf8)).toBe(utf8String);
+            expect(buffer.toBinaryString('abcdef')).toEqual('abcdef');
+            expect(buffer.toBinaryString(Buffer.from('abcdef'))).toEqual('abcdef');
+            expect(buffer.toBinaryString('日本語')).toEqual('日本語');
+            expect(buffer.toBinaryString(Buffer.from('日本語'))).toEqual('日本語');
+            expect(buffer.toBinaryString('あいうえお')).toEqual('あいうえお');
+            expect(buffer.toBinaryString(Buffer.from('あいうえお'))).toBe('あいうえお');
+            expect(buffer.toBinaryString(buffer.toArrayBuffer(Buffer.from(utf8String)))).toBe(utf8String);
         });
         test('utf8 arrayBufferToArray', () => {
             expect(buffer.arrayBufferToArray(buffer.toArrayBuffer(utf8))).toEqual(
