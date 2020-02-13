@@ -16,14 +16,14 @@ module.exports.convert = function(data, from, to) {
         return '';
     }
 
-    const array = arrayBufferToArray(data);
+    const array = buffer.arrayBufferToArray(data);
     const dec = iconv.decode(buffer.stringToArray(array), from);
     return iconv.encode(dec, to).toString();
 };
 
 // 文字コードを推測する
 module.exports.detect = function(data) {
-    const det = jschardet.detect(buffer.toBinaryString(data)).encoding
+    const det = jschardet.detect(Buffer.from(data)).encoding;
     return workaround(det);
 };
 
