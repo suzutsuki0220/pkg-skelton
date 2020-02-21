@@ -1,3 +1,5 @@
+const hex = require('./hex.js');
+
 function isMatch(value, pattern) {
     if (!value || !pattern) {
         return false;
@@ -65,4 +67,14 @@ module.exports.getBytes = function(value, bytes = NaN) {
     } while(i < size)
 
     return array;
+};
+
+module.exports.stringChecksum = function(data) {
+    let sum = 0;
+
+    for (let i=0; i<data.length; i++) {
+        sum ^= data.charCodeAt(i);
+    }
+
+    return hex.toHex(sum);
 };

@@ -151,4 +151,10 @@ describe('bit()', () => {
       expect(bit.getBytes(0x1ff)).toEqual([0x1, 0xff]);
     });
   });
+  describe('stringChecksum()', () => {
+    test('get checksum', () => {
+      expect(bit.stringChecksum('ab')).toBe("03");
+      expect(bit.stringChecksum('abc')).toBe("60");
+    });
+  });
 });
