@@ -36,7 +36,7 @@ describe('buffer', () => {
         test('isArrayBuffer', () => {
             expect(buffer.isArrayBuffer(new ArrayBuffer(1))).toBe(true);
             expect(buffer.isArrayBuffer(new Array(1))).toBe(false);
-            expect(buffer.isArrayBuffer(new Buffer(1))).toBe(false);
+            expect(buffer.isArrayBuffer(Buffer.alloc(1))).toBe(false);
             expect(buffer.isArrayBuffer('string')).toBe(false);
         });
     });
