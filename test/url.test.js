@@ -64,5 +64,21 @@ describe('url', () => {
       expect(url.getArrayValue({key: ['string1', 'string2']}, 'key')).toEqual(['string1', 'string2']);
     });
   });
-
+  test('apart', () => {
+      expect(url.apart('')).toEqual({});
+      expect(url.apart('/')).toEqual({});
+      expect(url.apart('/aa/bb/cc')).toEqual({});
+      expect(url.apart('example.com/aa/bb/cc')).toEqual({});
+      expect(url.apart('https://192.168.10.2/')).toEqual({scheme: 'https', host: '192.168.10.2', port: NaN, path: undefined});
+      expect(url.apart('https://[fe80::a1b3:125d:c1f8:4781]/')).toEqual({scheme: 'https', host: '[fe80::a1b3:125d:c1f8:4781]', port: NaN, path: undefined});
+      expect(url.apart('ftp://example.com')).toEqual({scheme: 'ftp', host: 'example.com', port: NaN, path: undefined});
+      expect(url.apart('http://example.com')).toEqual({scheme: 'http', host: 'example.com', port: NaN, path: undefined});
+      expect(url.apart('https://example.com')).toEqual({scheme: 'https', host: 'example.com', port: NaN, path: undefined});
+      expect(url.apart('https://example.com/')).toEqual({scheme: 'https', host: 'example.com', port: NaN, path: undefined});
+      expect(url.apart('http://example.com/path')).toEqual({scheme: 'http', host: 'example.com', port: NaN, path: '/path'});
+      expect(url.apart('http://example.com:8080')).toEqual({scheme: 'http', host: 'example.com', port: 8080, path: undefined});
+      expect(url.apart('https://example.com:8443/')).toEqual({scheme: 'https', host: 'example.com', port: 8443, path: undefined});
+      expect(url.apart('http://example.com:8080/path')).toEqual({scheme: 'http', host: 'example.com', port: 8080, path: '/path'});
+      expect(url.apart('http://example.com:8080/aaa/bb/cc')).toEqual({scheme: 'http', host: 'example.com', port: 8080, path: '/aaa/bb/cc'});
+  });
 });

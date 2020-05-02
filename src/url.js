@@ -103,3 +103,17 @@ module.exports.getArrayValue = function(params, key) {
 
     return Array.isArray(value) ? value : [value];
 };
+
+module.exports.apart = function(url) {
+    const match = url.match(/(\w+):(\/\/)?(\[[\w:]+\]|[^\/:]+)(:(\d+))?(\/.+)?/);
+    if (match) {
+        return {
+            scheme: match[1],
+            host:   match[3],
+            port:   parseInt(match[5]),
+            path:   match[6]
+        };
+    } else {
+        return {};
+    }
+};
