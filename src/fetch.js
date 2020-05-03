@@ -33,6 +33,7 @@ module.exports.request = function(request, onSuccess = noWork, onError = noWork)
     f(compose.uri, {
         method: request.method || 'GET',
         credentials: 'same-origin',
+        mode: request.mode || 'same-origin',
         headers: request.headers || [],
         body: compose.body
     }).then(response => {
